@@ -49,14 +49,8 @@
         sNext: "Selanjutnya",
       },
       sLengthMenu: "Menampilkan _MENU_Data",
-      sZeroRecords: "Tidak menemukan data dengan keyword yang anda tulis"
+      sZeroRecords: "Tidak ada data yang ditemukan"
     },
-    // lengthMenu: "Menampilkan _MENU_ Data",
-    // dom: `
-    //     <'row'<'col-sm-6'<'flex items-center gap-2'>><'col-sm-6'f>>
-    //     <'row'<'col-sm-12 my-3'tr>>
-    //     <'flex items-center justify-between'<'col-sm-6'<'flex items-center gap-2'li>><'col-sm-6'p>>
-    // `,
     dom: `
         <'flex justify-start'f>
         <'mt-10'l>
