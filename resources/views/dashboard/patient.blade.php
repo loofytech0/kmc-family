@@ -68,7 +68,7 @@
     columns: [
       {"data": null, "sortable": false, render: function (data, type, row, meta) {
           return `
-            <div class="text-center font-semibold">${meta.row + meta.settings._iDisplayStart + 1}</div>
+            <div class="text-center font-semibold patient-row" data-inspection="${row.inspection ? true : false}">${meta.row + meta.settings._iDisplayStart + 1}</div>
           `;
       }},
       {data: "name", render: function (data, type, row, meta) {
@@ -101,9 +101,15 @@
         if (data == "other") return "Lain - lain";
       }},
       {data: "uuid", render: function (data, type, row, meta) {
-        return ``;
+        if (!row.inspection) return "";
+
+        const date = new Date(row.inspection.created_at);
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        return "JAM " + hour + ":" + minute;
       }},
       {data: "uuid", render: function (data, type, row, meta) {
+        if (row.inspection) return "";
         return `
           <div class="flex justify-center">
             <a href="/dashboard/inspection/${data}" class="text-sm btn-checkin">
@@ -114,6 +120,12 @@
       }}
     ],
     fnInfoCallback: function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+      $(".patient-row").each(function() {
+        const hasInspection = $(this).data("inspection");
+        if (hasInspection) {
+          $(this).parent().parent().attr("style", "background: #0668CC; color: #fff");
+        }
+      });
       if (iTotal != 0) {
         return `Menampilkan ${iStart} - ${iEnd} dari total ${iTotal} data`;
       }

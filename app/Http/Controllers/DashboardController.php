@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnalysisIllnessExperiences;
+use App\Models\FamilyApgar;
+use App\Models\FamilyScreem;
+use App\Models\HealthyHomeAssessment;
+use App\Models\Inspection;
 use App\Models\Patient;
+use App\Models\PhbsIndicator;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -49,44 +55,126 @@ class DashboardController extends Controller
 
 	public function dataPatient(Request $request) {
 		// dd($request->all());
-		$patient = Patient::whereDay("created_at", "=", date("d"))->orderBy("created_at", "desc")->take($request->length)->get();
+		$patient = Patient::with("inspection")->whereDay("created_at", "=", date("d"))->orderBy("created_at", "desc")->take($request->length)->get();
 
 		return DataTables::of($patient)->toJson();
 	}
 
 	public function inspection() {
+		return redirect()->route("patient");
 		return view("dashboard.inspection");
 	}
 
-	public function inspectionNew(Request $request, $id) {
+	public function inspectionNew(Request $request, $uuid) {
 		$anamnesis = [
-			"Penyakit yang saya alami datangnya karena kehendak Allah",
-			"Saya menerima dengan ikhlas penyakit yang Allah berikan kepada saya",
-			"Saya sabar dalam menjalani masa pengobatan",
-			"Penyakit yang Allah berikan bisa membersihkan dosa-dosa saya",
-			"Saya yakin Allah akan memberikan kesembuhan kepada saya",
-			"Saya yakin Allah selalu mendengar doa saya",
-			"Saya yakin Allah akan mengabulkan doa-doa saya",
-			"Saya yakin setiap penyakit Allah berikan obat untuk menyembuhkannya",
-			"Saya akan sembuh hanya dengan izin Allah",
-			"Dokter hanya orang yang membantu menyembuhkan saya, yang menyembuhkan saya adalah Allah",
-			"Meminum obat adalah ikhtiar saya agar sembuh, yang menyembuhkan saya adalah Allah",
-			"Saya yakin Allah selalu memberikan yang terbaik untuk saya",
-			"Saya yakin setelah kehidupan di dunia, akan ada kehidupan di akhirat",
-			"Saya harus mempersiapkan amalan untuk bekal hidup di akhirat",
-			"Saya melaksanakan shalat setiap hari 5 waktu sekalipun saat sakit",
-			"Saya melaksanakan shalat sunnah dhuha setiap hari sekalipun saat sakit",
-			"Saya selalu membaca Al Qur'an setiap hari",
-			"Saya selalu berdzikir kepada Allah setiap hari",
-			"Makanan yang saya makan selalu makanan yang halal",
-			"Minuman yang saya makan selalu minuman yang halal",
-			"Makanan yang saya makan selalu makanan yang baik untuk kesehatan (thayyib)",
-			"Minuman yang saya makan selalu minuman yang baik untuk kesehatan (thayyib)",
-			"Saya selalu berhenti makan sebelum kenyang",
-			"Saya suka bersedekah (uang. makanan, dill)",
-			"Saya yakin dengan bersedekah bisa membantu menyembuhkan penyakit saya",
-			"Saya merasa bahagia jika bisa berbagi dengan orang lain",
-			"Saya merasa bahagia jika bisa membantu orang lain"
+			[
+				"question" => "Penyakit yang saya alami datangnya karena kehendak Allah",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya menerima dengan ikhlas penyakit yang Allah berikan kepada saya",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya sabar dalam menjalani masa pengobatan",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Penyakit yang Allah berikan bisa membersihkan dosa-dosa saya",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya yakin Allah akan memberikan kesembuhan kepada saya",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya yakin Allah selalu mendengar doa saya",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya yakin Allah akan mengabulkan doa-doa saya",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya yakin setiap penyakit Allah berikan obat untuk menyembuhkannya",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya akan sembuh hanya dengan izin Allah",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Dokter hanya orang yang membantu menyembuhkan saya, yang menyembuhkan saya adalah Allah",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Meminum obat adalah ikhtiar saya agar sembuh, yang menyembuhkan saya adalah Allah",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya yakin Allah selalu memberikan yang terbaik untuk saya",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya yakin setelah kehidupan di dunia, akan ada kehidupan di akhirat",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya harus mempersiapkan amalan untuk bekal hidup di akhirat",
+				"group" => "patient_faith"
+			],
+			[
+				"question" => "Saya melaksanakan shalat setiap hari 5 waktu sekalipun saat sakit",
+				"group" => "patient_worship_routine"
+			],
+			[
+				"question" => "Saya melaksanakan shalat sunnah dhuha setiap hari sekalipun saat sakit",
+				"group" => "patient_worship_routine"
+			],
+			[
+				"question" => "Saya selalu membaca Al Qur'an setiap hari",
+				"group" => "patient_worship_routine"
+			],
+			[
+				"question" => "Saya selalu berdzikir kepada Allah setiap hari",
+				"group" => "patient_worship_routine"
+			],
+			[
+				"question" => "Makanan yang saya makan selalu makanan yang halal",
+				"group" => "eat_drink_halal"
+			],
+			[
+				"question" => "Minuman yang saya makan selalu minuman yang halal",
+				"group" => "eat_drink_halal"
+			],
+			[
+				"question" => "Makanan yang saya makan selalu makanan yang baik untuk kesehatan (thayyib)",
+				"group" => "eat_drink_halal"
+			],
+			[
+				"question" => "Minuman yang saya makan selalu minuman yang baik untuk kesehatan (thayyib)",
+				"group" => "eat_drink_halal"
+			],
+			[
+				"question" => "Saya selalu berhenti makan sebelum kenyang",
+				"group" => "eat_drink_halal"
+			],
+			[
+				"question" => "Saya suka bersedekah (uang. makanan, dill)",
+				"group" => "give_charity_do_good"
+			],
+			[
+				"question" => "Saya yakin dengan bersedekah bisa membantu menyembuhkan penyakit saya",
+				"group" => "give_charity_do_good"
+			],
+			[
+				"question" => "Saya merasa bahagia jika bisa berbagi dengan orang lain",
+				"group" => "give_charity_do_good"
+			],
+			[
+				"question" => "Saya merasa bahagia jika bisa membantu orang lain",
+				"group" => "give_charity_do_good"
+			]
 		];
 		$apgars = [
 			"Saya merasa sangat puas karena saya dapat meminta pertolongan kepada keluarga saya ketika saya menghadapi permasalahan.",
@@ -103,12 +191,27 @@ class DashboardController extends Controller
 			"Economic",
 			"Medical"
 		];
-		$religious_perception = [
-			"Penyakit yang saya alami datangnya karena kehendak Allah",
-			"Saya menerima dengan ikhlas penyakit yang Allah berikan kepada saya",
-			"Saya sabar dalam menjalani masa pengobatan",
-			"Penyakit yang Allah berikan bisa membersihkan dosa-dosa saya",
-			"Saya yakin Allah akan memberikan kesembuhan kepada saya"
+		$screems_religious_perception = [
+			[
+				"question" => "Penyakit yang saya alami datangnya karena kehendak Allah",
+				"group" => "screems_patient_faith"
+			],
+			[
+				"question" => "Saya menerima dengan ikhlas penyakit yang Allah berikan kepada saya",
+				"group" => "screems_patient_faith"
+			],
+			[
+				"question" => "Saya sabar dalam menjalani masa pengobatan",
+				"group" => "screems_patient_faith"
+			],
+			[
+				"question" => "Penyakit yang Allah berikan bisa membersihkan dosa-dosa saya",
+				"group" => "screems_patient_faith"
+			],
+			[
+				"question" => "Saya yakin Allah akan memberikan kesembuhan kepada saya",
+				"group" => "screems_patient_faith"
+			]
 		];
 		$phbs = [
 			"Persalinan ditolong oleh tenaga kesehatan",
@@ -130,7 +233,8 @@ class DashboardController extends Controller
 					"Ada, kotor, sulit dibersihkan, dan rawan kecelakaan",
 					"Ada, bersih dan tidak rawan kecelakaan"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Dinding",
@@ -139,7 +243,8 @@ class DashboardController extends Controller
 					"Semi permanen/setengah tembok/pasangan bata atau batu yang tidak diplester/papan yang tidak kedap air",
 					"Permanen (Tembok/pasangan batu bata yang diplester/papan kedap air)"
 				],
-				"point" => [1, 2, 3]
+				"point" => [1, 2, 3],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Lantai",
@@ -148,7 +253,8 @@ class DashboardController extends Controller
 					"Papan/anyaman bambu dekat dengan tanah/plesteran yang retak dan berdebu",
 					"Diplester/ubin/keramik/papan (rumah panggung)"
 				],
-				"point" => [1, 2, 3]
+				"point" => [1, 2, 3],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Ruang untuk istirahat / tidur",
@@ -157,7 +263,8 @@ class DashboardController extends Controller
 					"Ukuran kamar tidur ≥ 8m2 untuk 2 orang, dipisah antara kamar tidur orang tua dan anak, tidak dipisah antara kamar tidur anak laki dan perempuan",
 					"Ukuran kamar tidur ≥ 8m2 untuk 2 orang, dipisah antara kamar tidur orang tua dan anak, dipisah antara kamar tidur anak laki dan perempuan"
 				],
-				"point" => [1, 2, 3]
+				"point" => [1, 2, 3],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Jendela Kamar Tidur",
@@ -166,7 +273,8 @@ class DashboardController extends Controller
 					"Ada dan tidak memenuhi syarat (< 5% luas lantai ruangan kamar tidur)",
 					"Ada dan memenuhi syarat (≥ 5% luas lantai ruang keluarga)"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Jendela Ruang Keluarga",
@@ -175,7 +283,8 @@ class DashboardController extends Controller
 					"Ada dan tidak memenuhi syarat (< 5% luas lantai ruang keluarga)",
 					"Ada dan memenuhi syarat (≥ 5% luas lantai ruang keluarga)"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Ventilasi",
@@ -184,7 +293,8 @@ class DashboardController extends Controller
 					"Ada, lubang ventilasi dapur < 10% dari luas lantai",
 					"Ada, lubang ventilasi > 10% dari luas lantai"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Lubang Asap Dapur",
@@ -193,7 +303,8 @@ class DashboardController extends Controller
 					"Ada, lubang ventilasi dapur < 10% dari luas lantai dapur",
 					"Ada, lubang ventilasi dapur > 10% dari luas lantai dapur (asap keluar dengan sempurna) atau ada exhaust fan atau ada peralatan lain yang sejenis."
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "home_components"
 			],
 			[
 				"komponen" => "Pencahayaan",
@@ -202,7 +313,8 @@ class DashboardController extends Controller
 					"Kurang terang, sehingga kurang jelas untuk membaca dengan normal",
 					"Terang dan tidak silau sehingga dapat dipergunakan untuk membaca dengan normal."
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "home_components"
 			],
 		];
 		$sarana_sanitasi = [
@@ -215,7 +327,8 @@ class DashboardController extends Controller
 					"Ada, milik sendiri dan memenuhi syarat kesehatan fisik air bersih",
 					"Ada, bukan milik sendiri dan memenuhi syarat kesehatan fisik air bersih"
 				],
-				"point" => [0, 1, 2, 3, 4]
+				"point" => [0, 1, 2, 3, 4],
+				"group" => "sanitation_facilities"
 			],
 			[
 				"komponen" => "<span>Jamban (sarana pembuangan kotoran)</span>",
@@ -226,7 +339,8 @@ class DashboardController extends Controller
 					"Ada, bukan leher angsa, ada tutup, septic tank",
 					"Ada, leher angsa, septic tank, memenuhi pembuangan kotoran BAB yang baik"
 				],
-				"point" => [0, 1, 2, 3, 4]
+				"point" => [0, 1, 2, 3, 4],
+				"group" => "sanitation_facilities"
 			],
 			[
 				"komponen" => "<span>Sarana Pembuangan Air Limbah (SPAL) Keterangan:
@@ -247,7 +361,8 @@ class DashboardController extends Controller
 					"Ada, diresapkan dan tidak mencemari sumber air (jarak dengan sumber air ≥ 10m)",
 					"Ada, dialirkan ke selokan tertutup (saluran kota) untuk diolah lebih lanjut"
 				],
-				"point" => [0, 1, 2, 3, 4]
+				"point" => [0, 1, 2, 3, 4],
+				"group" => "sanitation_facilities"
 			],
 			[
 				"komponen" => "<span>Saran Pembuangan Sampah/Tempat Sampah</span>",
@@ -257,7 +372,8 @@ class DashboardController extends Controller
 					"Ada, kedap air dan tidak bertutup",
 					"Ada, kedap air dan bertutup",
 				],
-				"point" => [0, 1, 2, 3]
+				"point" => [0, 1, 2, 3],
+				"group" => "sanitation_facilities"
 			],
 		];
 		$perilaku_penghuni = [
@@ -268,7 +384,8 @@ class DashboardController extends Controller
 					"Kadang-kadang",
 					"Setiap hari dibuka"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
 			],
 			[
 				"komponen" => "Membuka Jendela Ruang Keluarga",
@@ -277,7 +394,8 @@ class DashboardController extends Controller
 					"Kadang-kadang",
 					"Setiap hari dibuka"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
 			],
 			[
 				"komponen" => "Membersihkan rumah dan halaman",
@@ -286,7 +404,8 @@ class DashboardController extends Controller
 					"Kadang-kadang",
 					"Setiap hari"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
 			],
 			[
 				"komponen" => "Membuang tinja bayi dan balita ke jamban",
@@ -295,7 +414,8 @@ class DashboardController extends Controller
 					"Kadang-kadang ke jamban",
 					"Setiap hari dibuang ke jamban"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
 			],
 			[
 				"komponen" => "Membuang sampah pada tempat sampah",
@@ -304,10 +424,138 @@ class DashboardController extends Controller
 					"Kadang-kadang dibuang ke tempat sampah",
 					"Setiap hari dibuang ke tempat sampah"
 				],
-				"point" => [0, 1, 2]
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
 			],
 		];
-		return view("dashboard.inspection-new", compact("anamnesis", "apgars", "screems", "religious_perception", "phbs", "komponen_rumah", "sarana_sanitasi", "perilaku_penghuni"));
+		return view("dashboard.inspection-new", compact("uuid", "anamnesis", "apgars", "screems", "screems_religious_perception", "phbs", "komponen_rumah", "sarana_sanitasi", "perilaku_penghuni"));
+	}
+
+	public function inspectionStore(Request $request) {
+		// dd($request->healthy_home_assessments);
+		try {
+			DB::beginTransaction();
+
+			$patient = Patient::where("uuid", $request->uuid)->first();
+			if (!$patient) throw new \Exception("Error, patient not found!");
+
+			$inspection = new Inspection();
+			$inspection->patient_id = $patient->id;
+			$inspection->inspections_code = Str::uuid();
+			$inspection->main_complaint = $request->main_complaint;
+			$inspection->family_history_disease = $request->family_history_disease;
+			$inspection->history_current_illness = $request->history_current_illness;
+			$inspection->personal_social_history = $request->personal_social_history;
+			$inspection->past_medical_history = $request->past_medical_history;
+			$inspection->system_review = $request->system_review;
+			$inspection->family_genogram = $request->family_genogram;
+			$inspection->family_map = $request->family_map;
+			$inspection->family_structure = $request->family_structure;
+			$inspection->family_life_cycle = $request->family_life_cycle;
+			$inspection->family_apgar = $request->family_apgar;
+			$inspection->family_screem = $request->family_screem;
+			$inspection->family_life_line = $request->family_life_line;
+			$inspection->general_condition = $request->general_condition;
+			$inspection->awareness = $request->awareness;
+			$inspection->body_height = $request->body_height;
+			$inspection->body_weight = $request->body_weight;
+			$inspection->body_waist_size = $request->body_waist_size;
+			$inspection->body_hip_circumference = $request->body_hip_circumference;
+			$inspection->body_upper_arm_circumference = $request->body_upper_arm_circumference;
+			$inspection->body_mass_index = $request->body_mass_index;
+			$inspection->body_hip_ratio = $request->body_hip_ratio;
+			$inspection->body_status_nutrition = $request->body_status_nutrition;
+			$inspection->general_examination_head = $request->general_examination_head;
+			$inspection->general_examination_abdomen = $request->general_examination_abdomen;
+			$inspection->general_examination_neck = $request->general_examination_neck;
+			$inspection->general_examination_anogenital = $request->general_examination_anogenital;
+			$inspection->general_examination_thoraks = $request->general_examination_thoraks;
+			$inspection->general_examination_ekstremitas = $request->general_examination_ekstremitas;
+			$inspection->special_inspection = $request->special_inspection;
+			$inspection->nutritional_status_and_physical_activity = $request->nutritional_status_and_physical_activity;
+			$inspection->laboratory_examination = $request->laboratory_examination;
+			$inspection->radiological_examination = $request->radiological_examination;
+			$inspection->other_examination = $request->other_examination;
+			$inspection->differential_diagnosis = $request->differential_diagnosis;
+			$inspection->conclusion_examination = $request->conclusion_examination;
+			$inspection->healthy_home_assessment = $request->healthy_home_assessment;
+			$inspection->holistic_diagnosis_clinical = $request->holistic_diagnosis_clinical;
+			$inspection->holistic_diagnosis_personal = $request->holistic_diagnosis_personal;
+			$inspection->holistic_diagnosis_internal_risk = $request->holistic_diagnosis_internal_risk;
+			$inspection->holistic_diagnosis_external_risk = $request->holistic_diagnosis_external_risk;
+			$inspection->holistic_diagnosis_functional_degree = $request->holistic_diagnosis_functional_degree;
+			$inspection->holistic_diagnosis_description = $request->holistic_diagnosis_description;
+			$inspection->patient_centered = $request->patient_centered;
+			$inspection->family_focused = $request->family_focused;
+			$inspection->community_oriented = $request->community_oriented;
+			$inspection->house_condition = $request->house_condition;
+			$inspection->impression = $request->impression;
+			$inspection->environment_around_house = $request->environment_around_house;
+			$inspection->work_environment = $request->work_environment;
+			$inspection->ad_vitam = $request->ad_vitam;
+			$inspection->ad_functionam = $request->ad_functionam;
+			$inspection->ad_sanationam = $request->ad_sanationam;
+			$inspection->save();
+
+			if ($request->analysis_illness_experiences) {
+				foreach ($request->analysis_illness_experiences["group"] as $key => $value) {
+					$illness = new AnalysisIllnessExperiences();
+					$illness->inspection_id = $inspection->id;
+					$illness->group = $value;
+					$illness->question = $request->analysis_illness_experiences["question"][$key];
+					$illness->point = $request->analysis_illness_experiences["point"][$key];
+					$illness->save();
+				}
+			}
+
+			if ($request->family_apgars) {
+				foreach ($request->family_apgars["question"] as $key => $value) {
+					$apgars = new FamilyApgar();
+					$apgars->inspection_id = $inspection->id;
+					$apgars->question = $value;
+					$apgars->point = $request->family_apgars["point"][$key];
+					$apgars->save();
+				}
+			}
+
+			if ($request->family_screems) {
+				foreach ($request->family_screems["group"] as $key => $value) {
+					$screems = new FamilyScreem();
+					$screems->inspection_id = $inspection->id;
+					$screems->group = $value;
+					$screems->question = $request->family_screems["question"][$key];
+					$screems->point = $request->family_screems["point"][$key];
+					$screems->save();
+				}
+			}
+
+			if ($request->phbs_indicators) {
+				foreach ($request->phbs_indicators["question"] as $key => $value) {
+					$phbs = new PhbsIndicator();
+					$phbs->inspection_id = $inspection->id;
+					$phbs->question = $request->phbs_indicators["question"][$key];
+					$phbs->answer = $request->phbs_indicators["answer"][$key] == "true" ? 1 : 0;
+					$phbs->save();
+				}
+			}
+
+			if ($request->healthy_home_assessments) {
+				foreach ($request->healthy_home_assessments["group"] as $key => $value) {
+					$home_assessments = new HealthyHomeAssessment();
+					$home_assessments->inspection_id = $inspection->id;
+					$home_assessments->group = $value;
+					$home_assessments->question = $request->healthy_home_assessments["question"][$key];
+					$home_assessments->point = $request->healthy_home_assessments["point"][$key];
+					$home_assessments->save();
+				}
+			}
+
+			DB::commit();
+			return response()->json(["message" => "Oke"]);
+		} catch (\Exception $e) {
+			DB::rollBack();
+			return response()->json(["message" => $e->getMessage(), "status" => false], 400);
+		}
 	}
 
 	public function report() {
