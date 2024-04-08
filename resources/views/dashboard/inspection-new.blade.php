@@ -752,18 +752,20 @@ Perhatikan:
                   value="{{ $item["point"][$key2] }}"
                   class="form-control healthy_home_assessments-point"
                   data-group="{{ $item["group"] }}"
+                  data-target="{{ $item["group"] }}-{{ $key }}"
+                  data-weight="25"
                 />
               </label>
             </td>
             @if ($key2 / 3 == 0)
-              <td rowspan="3" class="text-center font-semibold" id="komponent_point_result-{{ $key }}"></td>
+              <td rowspan="3" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}"></td>
             @endif
           </tr>
         @endforeach
       @endforeach
       <tr>
         <td colspan="3" class="font-bold text-right">HASIL PENILAIAN</td>
-        <td colspan="3" class="text-left font-bold">0</td>
+        <td colspan="3" class="text-left font-bold" id="home_components">0</td>
       </tr>
       <tr style="background: #D9D9D9">
         <td colspan="4" class="font-bold">
@@ -792,18 +794,20 @@ Perhatikan:
                   value="{{ $item["point"][$key2] }}"
                   class="form-control healthy_home_assessments-point"
                   data-group="{{ $item["group"] }}"
+                  data-target="{{ $item["group"] }}-{{ $key }}"
+                  data-weight="45"
                 />
               </label>
             </td>
             @if ($key2 / 3 == 0)
-              <td rowspan="{{ $key == 3 ? 4 : 5 }}" class="text-center font-semibold" id="sarana_sanitasi_result-{{ $key }}"></td>
+              <td rowspan="{{ $key == 3 ? 4 : 5 }}" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}"></td>
             @endif
           </tr>
         @endforeach
       @endforeach
       <tr>
         <td colspan="3" class="font-bold text-right">HASIL PENILAIAN</td>
-        <td colspan="3" class="text-left font-bold">0</td>
+        <td colspan="3" class="text-left font-bold" id="sanitation_facilities">0</td>
       </tr>
       <tr style="background: #D9D9D9">
         <td colspan="4" class="font-bold">
@@ -832,22 +836,27 @@ Perhatikan:
                   value="{{ $item["point"][$key2] }}"
                   class="form-control healthy_home_assessments-point"
                   data-group="{{ $item["group"] }}"
+                  data-target="{{ $item["group"] }}-{{ $key }}"
+                  data-weight="30"
                 />
               </label>
             </td>
             @if ($key2 / 3 == 0)
-              <td rowspan="3" class="text-center font-semibold" id="komponent_point_result-{{ $key }}"></td>
+              <td rowspan="3" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}"></td>
             @endif
           </tr>
         @endforeach
       @endforeach
       <tr>
         <td colspan="3" class="font-bold text-right">HASIL PENILAIAN</td>
-        <td colspan="3" class="text-left font-bold">0</td>
+        <td colspan="3" class="text-left font-bold" id="occupant_behavior">0</td>
       </tr>
       <tr>
         <td colspan="3" class="font-bold text-right">TOTAL HASIL PENILAIAN</td>
-        <td colspan="3" class="text-left font-bold">0</td>
+        <td colspan="3" class="text-left font-bold">
+          <span id="healthy_home_assessments-totalpoint">0</span>
+          (<span id="healthy_home_assessments-information">Tidak di ketahui</span>)
+        </td>
       </tr>
     </table>
     <div class="grid grid-cols-1 gap-5 mb-6">
@@ -963,6 +972,35 @@ Perhatikan:
     $("#family_screems-count").text(screems_point);
     $("#family_screems-information").text(screems_info);
   });
+
+  $(".healthy_home_assessments-point").change(function() {
+    let assessments_point = $(this).val() * $(this).data("weight");
+    let assessments_group = $(this).data("group");
+    let assessments_target = $(this).data("target");
+    $("#" + assessments_target).text(assessments_point);
+
+    let assessments_point_group = 0;
+    $("." + assessments_group).each(function() {
+      if ($(this).text()) {
+        assessments_point_group += parseInt($(this).text());
+      }
+    });
+    $("#" + assessments_group).text(assessments_point_group);
+
+    const assessments_group1 = $("#home_components").text();
+    const assessments_group2 = $("#sanitation_facilities").text();
+    const assessments_group3 = $("#occupant_behavior").text();
+    let assessments_total = 0;
+    let assessments_info = "Tidak di ketahui";
+
+    assessments_total = parseInt(assessments_group1) + parseInt(assessments_group2) + parseInt(assessments_group3);
+    if (assessments_total < 1410) assessments_info = "Kurang Memenuhi Syarat";
+    if (assessments_total > 1410) assessments_info = "Memenuhi Syarat";
+
+    $("#healthy_home_assessments-totalpoint").text(assessments_total);
+    $("#healthy_home_assessments-information").text(assessments_info);
+  });
+
 
   function addSeverity() {
     const table = document.querySelector(".severity-table").querySelector("tbody");
