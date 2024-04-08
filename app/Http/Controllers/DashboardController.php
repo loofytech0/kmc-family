@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\AnalysisIllnessExperiences;
 use App\Models\FamilyApgar;
+use App\Models\FamilyFocused;
+use App\Models\FamilyLifeLine;
 use App\Models\FamilyScreem;
 use App\Models\HealthyHomeAssessment;
+use App\Models\HomeVisitResults;
 use App\Models\Inspection;
+use App\Models\MainFamily;
 use App\Models\Patient;
 use App\Models\PhbsIndicator;
+use App\Models\ScreemAspect;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -432,7 +437,7 @@ class DashboardController extends Controller
 	}
 
 	public function inspectionStore(Request $request) {
-		// dd($request->healthy_home_assessments);
+		// dd($request->home_visit_results);
 		try {
 			DB::beginTransaction();
 
@@ -547,6 +552,85 @@ class DashboardController extends Controller
 					$home_assessments->question = $request->healthy_home_assessments["question"][$key];
 					$home_assessments->point = $request->healthy_home_assessments["point"][$key];
 					$home_assessments->save();
+				}
+			}
+
+			if ($request->screem_aspects) {
+				foreach ($request->screem_aspects["question"] as $key => $value) {
+					$screem_aspects = new ScreemAspect();
+					$screem_aspects->inspection_id = $inspection->id;
+					$screem_aspects->question = $value;
+					$screem_aspects->strength = $request->screem_aspects["strength"][$key];
+					$screem_aspects->weakness = $request->screem_aspects["weakness"][$key];
+					$screem_aspects->save();
+				}
+			}
+
+			if ($request->main_families) {
+				foreach ($request->main_families["name"] as $key => $value) {
+					$gender = $request->main_families["gender"][$key];
+					$birth_date = $request->main_families["birth_date"][$key];
+					if ($value && $gender && $birth_date) {
+						$main_families = new MainFamily();
+						$main_families->inspection_id = $inspection->id;
+						$main_families->name = $value;
+						$main_families->gender = $gender;
+						$main_families->birth_date = date("Y-m-d", strtotime($birth_date));
+						$main_families->job = $request->main_families["job"][$key];
+						$main_families->health_status = $request->main_families["health_status"][$key];
+						$main_families->save();
+					}
+				}
+			}
+
+			if ($request->family_life_lines) {
+				foreach ($request->family_life_lines["year"] as $key => $value) {
+					$age = $request->family_life_lines["age"][$key];
+					$life_events = $request->family_life_lines["life_events"][$key];
+					$family_illness = $request->family_life_lines["illness"][$key];
+					if ($value && $age && $life_events && $family_illness) {
+						$family_life_lines = new FamilyLifeLine();
+						$family_life_lines->inspection_id = $inspection->id;
+						$family_life_lines->year = $value;
+						$family_life_lines->age = $age;
+						$family_life_lines->life_events = $life_events;
+						$family_life_lines->illness = $family_illness;
+						$family_life_lines->save();
+					}
+				}
+			}
+
+			if ($request->family_focuseds) {
+				foreach ($request->family_focuseds["name"] as $key => $value) {
+					$family_focuseds_age = $request->family_focuseds["age"][$key];
+					$health_status = $request->family_focuseds["health_status"][$key];
+					$risk_disease = $request->family_focuseds["risk_disease"][$key];
+					$preventive_intervention = $request->family_focuseds["preventive_intervention"][$key];
+					if ($value && $family_focuseds_age && $health_status && $risk_disease && $preventive_intervention) {
+						$family_focuseds = new FamilyFocused();
+						$family_focuseds->inspection_id = $inspection->id;
+						$family_focuseds->name = $value;
+						$family_focuseds->age = $family_focuseds_age;
+						$family_focuseds->health_status = $health_status;
+						$family_focuseds->risk_disease = $risk_disease;
+						$family_focuseds->preventive_intervention = $preventive_intervention;
+						$family_focuseds->save();
+					}
+				}
+			}
+
+			if ($request->home_visit_results) {
+				foreach ($request->home_visit_results["visit_number"] as $key => $value) {
+					$visit_date = $request->home_visit_results["visit_date"][$key];
+					$note = $request->home_visit_results["note"][$key];
+					if ($value && $visit_date) {
+						$home_visit_results = new HomeVisitResults();
+						$home_visit_results->inspection_id = $inspection->id;
+						$home_visit_results->visit_number = $value;
+						$home_visit_results->visit_date = $visit_date;
+						$home_visit_results->note = $note;
+						$home_visit_results->save();
+					}
 				}
 			}
 

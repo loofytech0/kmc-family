@@ -242,14 +242,17 @@
         <th>Kelemahan</th>
       </tr>
       @foreach ($screems as $key => $item)
-        <tr>
-          <td class="text-center font-semibold">{{ $key + 1 }}</td>
-          <td class="font-semibold">{{ $item }}</td>
-          <td>
-            <input type="text" class="w-full" autocomplete="off">
+      <tr>
+        <td class="text-center font-semibold">{{ $key + 1 }}</td>
+        <td class="font-semibold">
+          {{ $item }}
+          <input type="hidden" name="screem_aspects" value="{{ $item }}">
+        </td>
+        <td>
+            <input type="text" name="screem_aspects_strength" value="" class="w-full" autocomplete="off">
           </td>
           <td>
-            <input type="text" class="w-full" autocomplete="off">
+            <input type="text" name="screem_aspects_weakness" value="" class="w-full" autocomplete="off">
           </td>
         </tr>
       @endforeach
@@ -653,8 +656,8 @@ Perhatikan kolaborasi interprofesi dan apakah perlu digolongkan dalam manajemen 
         <th>Nama</th>
         <th>Usia (level kehidupan)</th>
         <th>Status Kesehatan</th>
-        <th>Risiko penyakit</th>
-        <th>Intervensi pencegahan</th>
+        <th>Risiko Penyakit</th>
+        <th>Intervensi Pencegahan</th>
       </tr>
       <tr class="famfocus-add">
         <td colspan="6" class="font-bold text-center">
@@ -690,19 +693,19 @@ Perhatikan:
         <tr>
           <td class="font-bold text-center">{{ $i + 1 }}</td>
           <td>
-            <input type="text" class="w-full" autocomplete="off">
+            <input type="text" name="main_families_name" value="" class="w-full" autocomplete="off">
           </td>
           <td>
-            <input type="text" class="w-full" autocomplete="off">
+            <input type="text" name="main_families_gender" value="" class="w-full" autocomplete="off">
           </td>
           <td>
-            <input type="text" class="w-full" autocomplete="off">
+            <input type="date" name="main_families_birth_date" value="" class="w-full" autocomplete="off">
           </td>
           <td>
-            <input type="text" class="w-full" autocomplete="off">
+            <input type="text" name="main_families_job" value="" class="w-full" autocomplete="off">
           </td>
           <td>
-            <input type="text" class="w-full" autocomplete="off">
+            <input type="text" name="main_families_health_status" value="" class="w-full" autocomplete="off">
           </td>
         </tr>
       @endfor
@@ -1019,22 +1022,30 @@ Perhatikan:
     textField1.setAttribute("type", "text");
     textField1.setAttribute("autocomplete", "off");
     textField1.setAttribute("class", "w-full");
-    textField1.setAttribute("id", nodeIter);
+    textField1.setAttribute("name", "family_life_lines_year");
+    textField1.setAttribute("value", "");
+    textField1.setAttribute("id", "family_life_lines_year" + nodeIter);
 
     textField2.setAttribute("type", "text");
     textField2.setAttribute("autocomplete", "off");
     textField2.setAttribute("class", "w-full");
-    textField2.setAttribute("id", nodeIter);
+    textField2.setAttribute("name", "family_life_lines_age");
+    textField2.setAttribute("value", "");
+    textField2.setAttribute("id", "family_life_lines_age" + nodeIter);
 
     textField3.setAttribute("type", "text");
     textField3.setAttribute("autocomplete", "off");
     textField3.setAttribute("class", "w-full");
-    textField3.setAttribute("id", nodeIter);
+    textField3.setAttribute("name", "family_life_lines_life_events");
+    textField3.setAttribute("value", "");
+    textField3.setAttribute("id", "family_life_lines_life_events" + nodeIter);
 
     textField4.setAttribute("type", "text");
     textField4.setAttribute("autocomplete", "off");
     textField4.setAttribute("class", "w-full");
-    textField4.setAttribute("id", nodeIter);
+    textField4.setAttribute("name", "family_life_lines_illness");
+    textField4.setAttribute("value", "");
+    textField4.setAttribute("id", "family_life_lines_illness" + nodeIter);
 
     td1.appendChild(document.createTextNode(nodeIter));
     td1.classList.add("text-center");
@@ -1074,27 +1085,32 @@ Perhatikan:
     textField1.setAttribute("type", "text");
     textField1.setAttribute("autocomplete", "off");
     textField1.setAttribute("class", "w-full");
-    textField1.setAttribute("id", nodeIter2);
+    textField1.setAttribute("name", "family_focuseds_name");
+    textField1.setAttribute("id", "family_focuseds_name" + nodeIter2);
 
     textField2.setAttribute("type", "text");
     textField2.setAttribute("autocomplete", "off");
     textField2.setAttribute("class", "w-full");
-    textField2.setAttribute("id", nodeIter2);
+    textField2.setAttribute("name", "family_focuseds_age");
+    textField2.setAttribute("id", "family_focuseds_age" + nodeIter2);
 
     textField3.setAttribute("type", "text");
     textField3.setAttribute("autocomplete", "off");
     textField3.setAttribute("class", "w-full");
-    textField3.setAttribute("id", nodeIter2);
+    textField3.setAttribute("name", "family_focuseds_health_status");
+    textField3.setAttribute("id", "family_focuseds_health_status" + nodeIter2);
 
     textField4.setAttribute("type", "text");
     textField4.setAttribute("autocomplete", "off");
     textField4.setAttribute("class", "w-full");
-    textField4.setAttribute("id", nodeIter2);
+    textField4.setAttribute("name", "family_focuseds_risk_disease");
+    textField4.setAttribute("id", "family_focuseds_risk_disease" + nodeIter2);
 
     textField5.setAttribute("type", "text");
     textField5.setAttribute("autocomplete", "off");
     textField5.setAttribute("class", "w-full");
-    textField5.setAttribute("id", nodeIter2);
+    textField5.setAttribute("name", "family_focuseds_preventive_intervention");
+    textField5.setAttribute("id", "family_focuseds_preventive_intervention" + nodeIter2);
 
     td1.appendChild(document.createTextNode(nodeIter2));
     td1.classList.add("text-center");
@@ -1132,17 +1148,20 @@ Perhatikan:
     textField1.setAttribute("type", "text");
     textField1.setAttribute("autocomplete", "off");
     textField1.setAttribute("class", "w-full");
-    textField1.setAttribute("id", nodeIter3);
+    textField1.setAttribute("name", "home_visit_results_visit_number");
+    textField1.setAttribute("id", "home_visit_results" + nodeIter3);
 
     textField2.setAttribute("type", "date");
     textField2.setAttribute("autocomplete", "off");
     textField2.setAttribute("class", "w-full");
-    textField2.setAttribute("id", nodeIter3);
+    textField2.setAttribute("name", "home_visit_results_visit_date");
+    textField2.setAttribute("id", "home_visit_results" + nodeIter3);
 
     textField3.setAttribute("type", "text");
     textField3.setAttribute("autocomplete", "off");
     textField3.setAttribute("class", "w-full");
-    textField3.setAttribute("id", nodeIter3);
+    textField3.setAttribute("name", "home_visit_results_note");
+    textField3.setAttribute("id", "home_visit_results" + nodeIter3);
 
     td1.appendChild(document.createTextNode(nodeIter3));
     td1.classList.add("text-center");
@@ -1247,6 +1266,106 @@ Perhatikan:
 
     if (healthy_home_assessments_point.length < 17) return alert("Penilaian Rumah Sehat Belum lengkap");
 
+    const screem_aspects_question = [];
+    $("input[name='screem_aspects']").each(function() {
+      screem_aspects_question.push($(this).val());
+    });
+
+    const screem_aspects_strength = [];
+    $("input[name='screem_aspects_strength']").each(function() {
+      screem_aspects_strength.push($(this).val());
+    });
+
+    const screem_aspects_weakness = [];
+    $("input[name='screem_aspects_weakness']").each(function() {
+      screem_aspects_weakness.push($(this).val());
+    });
+
+    const main_families_name = [];
+    $("input[name='main_families_name']").each(function() {
+      main_families_name.push($(this).val());
+    });
+
+    const main_families_gender = [];
+    $("input[name='main_families_gender']").each(function() {
+      main_families_gender.push($(this).val());
+    });
+
+    const main_families_birth_date = [];
+    $("input[name='main_families_birth_date']").each(function() {
+      main_families_birth_date.push($(this).val());
+    });
+
+    const main_families_job = [];
+    $("input[name='main_families_job']").each(function() {
+      main_families_job.push($(this).val());
+    });
+
+    const main_families_health_status = [];
+    $("input[name='main_families_health_status']").each(function() {
+      main_families_health_status.push($(this).val());
+    });
+
+    const family_life_lines_year = [];
+    $("input[name='family_life_lines_year']").each(function() {
+      family_life_lines_year.push($(this).val());
+    });
+
+    const family_life_lines_age = [];
+    $("input[name='family_life_lines_age']").each(function() {
+      family_life_lines_age.push($(this).val());
+    });
+
+    const family_life_lines_life_events = [];
+    $("input[name='family_life_lines_life_events']").each(function() {
+      family_life_lines_life_events.push($(this).val());
+    });
+
+    const family_life_lines_illness = [];
+    $("input[name='family_life_lines_illness']").each(function() {
+      family_life_lines_illness.push($(this).val());
+    });
+
+    const family_focuseds_name = [];
+    $("input[name='family_focuseds_name']").each(function() {
+      family_focuseds_name.push($(this).val());
+    });
+
+    const family_focuseds_age = [];
+    $("input[name='family_focuseds_age']").each(function() {
+      family_focuseds_age.push($(this).val());
+    });
+
+    const family_focuseds_health_status = [];
+    $("input[name='family_focuseds_health_status']").each(function() {
+      family_focuseds_health_status.push($(this).val());
+    });
+
+    const family_focuseds_risk_disease = [];
+    $("input[name='family_focuseds_risk_disease']").each(function() {
+      family_focuseds_risk_disease.push($(this).val());
+    });
+
+    const family_focuseds_preventive_intervention = [];
+    $("input[name='family_focuseds_preventive_intervention']").each(function() {
+      family_focuseds_preventive_intervention.push($(this).val());
+    });
+
+    const home_visit_results_visit_number = [];
+    $("input[name='home_visit_results_visit_number']").each(function() {
+      home_visit_results_visit_number.push($(this).val());
+    });
+
+    const home_visit_results_visit_date = [];
+    $("input[name='home_visit_results_visit_date']").each(function() {
+      home_visit_results_visit_date.push($(this).val());
+    });
+
+    const home_visit_results_note = [];
+    $("input[name='home_visit_results_note']").each(function() {
+      home_visit_results_note.push($(this).val());
+    });
+
     $.ajax({
       url: "{{ route('inspection.store') }}",
       type: "POST",
@@ -1329,6 +1448,36 @@ Perhatikan:
           group: healthy_home_assessments_group,
           point: healthy_home_assessments_point
         },
+        screem_aspects: {
+          question: screem_aspects_question,
+          strength: screem_aspects_strength,
+          weakness: screem_aspects_weakness
+        },
+        main_families: {
+          name: main_families_name,
+          gender: main_families_gender,
+          birth_date: main_families_birth_date,
+          job: main_families_job,
+          health_status: main_families_health_status
+        },
+        family_life_lines: {
+          year: family_life_lines_year,
+          age: family_life_lines_age,
+          life_events: family_life_lines_life_events,
+          illness: family_life_lines_illness
+        },
+        family_focuseds: {
+          name: family_focuseds_name,
+          age: family_focuseds_age,
+          health_status: family_focuseds_health_status,
+          risk_disease: family_focuseds_risk_disease,
+          preventive_intervention: family_focuseds_preventive_intervention,
+        },
+        home_visit_results: {
+          visit_number: home_visit_results_visit_number,
+          visit_date: home_visit_results_visit_date,
+          note: home_visit_results_note
+        }
       },
       beforeSend: function() {},
       success: function() {
