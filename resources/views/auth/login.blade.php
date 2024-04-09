@@ -14,6 +14,9 @@
   </style>
 </head>
 <body>
+  @if (session()->has("error"))
+    <div>{{ session()->get("error") }}</div>
+  @endif
   <div class="w-full h-screen bg-[#ADD6B1] flex justify-center items-center">
     <div class="p-3 max-w-[528px]">
       <div class="px-[29px] py-[45px] rounded-[30px] bg-[#ffffffbf]">
@@ -23,7 +26,7 @@
           @csrf
           <table class="w-full">
             <tr>
-              <td class="text-lg font-semibold">Email</td>
+              <td class="text-lg font-semibold">Username</td>
               <td class="text-lg font-semibold px-3">:</td>
               <td class="w-full">
                 <input type="text" name="email" autocomplete="off" class="border-0 w-full shadow">

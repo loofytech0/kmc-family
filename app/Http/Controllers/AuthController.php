@@ -16,18 +16,22 @@ class AuthController extends Controller
 
 	public function loginPost(Request $request) {
 		try {
-			$user = User::where("email", $request->email)->first();
-			if (!$user) throw new \Exception("Email or password salah");
+			$user = User::where("email", $request->email . "@loofyapp.my.id")->first();
+			if (!$user) throw new \Exception("Email or password salah 1");
 
 			$password = Hash::check($request->password, $user->password);
-			if (!$password) throw new \Exception("Email or password salah");
+			if (!$password) throw new \Exception("Email or password salah 2");
 
-			$credentials = $request->only("email", "password");
+			$credentials = [
+				"email" => $user->email,
+				"password" => $request->password
+			];
+
 			if (Auth::attempt($credentials)) {
 				return redirect()->route("dashboard");
 			}
 
-			throw new \Exception("Email atau password salah");
+			throw new \Exception("Email atau password salah 3");
 		} catch (\Exception $e) {
 			return redirect()->back()->with(["error" => $e->getMessage()]);
 		}
