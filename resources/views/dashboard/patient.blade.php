@@ -109,7 +109,13 @@
         return "JAM " + hour + ":" + minute;
       }},
       {data: "uuid", render: function (data, type, row, meta) {
-        if (row.inspection) return "";
+        if (row.inspection) return `
+          <div class="flex justify-center">
+            <a href="/dashboard/inspection/${data}/edit" class="text-black text-sm btn-checkin">
+              Sudah di Periksa
+            </a>
+          </div>
+        `;
         return `
           <div class="flex justify-center">
             <a href="/dashboard/inspection/${data}" class="text-sm btn-checkin">

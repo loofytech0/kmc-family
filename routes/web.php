@@ -17,6 +17,8 @@ Route::group(["prefix" => "dashboard", "middleware" => ["auth"]], function() {
 	Route::post("/patient/new", [DashboardController::class, "storePatient"])->name("patient.store");
 	Route::get("/inspection", [DashboardController::class, "inspection"])->name("inspection");
 	Route::post("/inspection/store", [DashboardController::class, "inspectionStore"])->name("inspection.store");
+	Route::put("/inspection/update", [DashboardController::class, "inspectionUpdate"])->name("inspection.update");
 	Route::get("/inspection/{uuid}", [DashboardController::class, "inspectionNew"])->name("inspection.new");
+	Route::get("/inspection/{uuid}/edit", [DashboardController::class, "inspectionNew"])->name("inspection.edit");
 	Route::get("/report", [DashboardController::class, "report"])->name("report");
 });

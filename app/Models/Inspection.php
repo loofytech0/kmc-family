@@ -18,4 +18,20 @@ class Inspection extends Model
 	public function illness() {
 		return $this->hasMany(AnalysisIllnessExperiences::class, "inspection_id");
 	}
+
+	public function family_apgrs() {
+		return $this->hasMany(FamilyApgar::class, "inspection_id");
+	}
+
+	public function family_screems() {
+		return $this->hasMany(FamilyScreem::class, "inspection_id");
+	}
+
+	public function phbs_indicators() {
+		return $this->hasMany(PhbsIndicator::class, "inspection_id");
+	}
+
+	public function healthy_home_assessments() {
+		return $this->hasMany(HealthyHomeAssessment::class, "inspection_id");
+	}
 }

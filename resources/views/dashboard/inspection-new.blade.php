@@ -9,27 +9,57 @@
     <div class="grid grid-cols-2 gap-5 mb-6">
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Keluhan Utama :</span>
-        <textarea id="main_complaint" rows="3" class="border-0 shadow-none outline-none" placeholder="Isikan keluhan utama"></textarea>
+        <textarea
+          id="main_complaint"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Isikan keluhan utama"
+        >{{ $inspection ? $inspection->main_complaint : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Riwayat Penyakit Keluarga :</span>
-        <textarea id="family_history_disease" rows="3" class="border-0 shadow-none outline-none" placeholder="(Uraikan penyakit yang ada pada keluarga termasuk Riwayat pengobatan. Diagram Riwayat keluarga disusun dalam bentuk genogram digambarkan terpisah)"></textarea>
+        <textarea
+          id="family_history_disease"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Uraikan penyakit yang ada pada keluarga termasuk Riwayat pengobatan. Diagram Riwayat keluarga disusun dalam bentuk genogram digambarkan terpisah)"
+        >{{ $inspection ? $inspection->family_history_disease : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Riwayat Penyakit Sekarang :</span>
-        <textarea id="history_current_illness" rows="3" class="border-0 shadow-none outline-none" placeholder="(Uraikan sejak timbul hingga berkembangnya penyakit, obat-obatan yang telah diminum, pelayanan kesehatan yang telah didapatkan termasuk sikap dan perilaku klien, keluarga dan lingkungan terhadap masalah yang ada)"></textarea>
+        <textarea
+          id="history_current_illness"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Uraikan sejak timbul hingga berkembangnya penyakit, obat-obatan yang telah diminum, pelayanan kesehatan yang telah didapatkan termasuk sikap dan perilaku klien, keluarga dan lingkungan terhadap masalah yang ada)"
+        >{{ $inspection ? $inspection->history_current_illness : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Riwayat Personal Sosial :</span>
-        <textarea id="personal_social_history" rows="3" class="border-0 shadow-none outline-none" placeholder="(Uraikan pula factor risiko yang ada pada klien dan keluarganya dengan menggali berbagai permasalahan dalam aspek-aspek pendidikan, pekerjaan, keluarga asal dan rumah tangga sekarang, serta minat dan gaya hidup)"></textarea>
+        <textarea
+          id="personal_social_history"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Uraikan pula factor risiko yang ada pada klien dan keluarganya dengan menggali berbagai permasalahan dalam aspek-aspek pendidikan, pekerjaan, keluarga asal dan rumah tangga sekarang, serta minat dan gaya hidup)"
+        >{{ $inspection ? $inspection->personal_social_history : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Riwayat Penyakit Dahulu (beserta pengobatan) :</span>
-        <textarea id="past_medical_history" rows="3" class="border-0 shadow-none outline-none" placeholder="(Uraikan penyakit yang ada pada klien, pengobatan, pembedahan dan Riwayat alergi. Uraikan pula pelayanan kesehatan yang telah diterima termasuk imunisasi dan skrining)"></textarea>
+        <textarea
+          id="past_medical_history"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Uraikan penyakit yang ada pada klien, pengobatan, pembedahan dan Riwayat alergi. Uraikan pula pelayanan kesehatan yang telah diterima termasuk imunisasi dan skrining)"
+        >{{ $inspection ? $inspection->past_medical_history : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Review Sistem :</span>
-        <textarea id="system_review" rows="3" class="border-0 shadow-none outline-none" placeholder="(Anamnesis berdasarkan tinjauan pada semua sistem tubuh untuk mengantisipasi hal-hal yang terlewatkan sebelumnya) "></textarea>
+        <textarea
+          id="system_review"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Anamnesis berdasarkan tinjauan pada semua sistem tubuh untuk mengantisipasi hal-hal yang terlewatkan sebelumnya)"
+        >{{ $inspection ? $inspection->system_review : "" }}</textarea>
       </div>
     </div>
     <div class="mb-2 font-bold">ANAMNESIS PENGALAMAN SAKIT (ILLNESS)</div>
@@ -86,6 +116,7 @@
                 value="5"
                 class="form-control"
                 data-group="analysis_illness_experiences"
+                {{ $inspection ? $inspection->illness[$key]["point"] == 5 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -98,6 +129,7 @@
                 value="4"
                 class="form-control"
                 data-group="analysis_illness_experiences"
+                {{ $inspection ? $inspection->illness[$key]["point"] == 4 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -110,6 +142,7 @@
                 value="3"
                 class="form-control"
                 data-group="analysis_illness_experiences"
+                {{ $inspection ? $inspection->illness[$key]["point"] == 3 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -122,6 +155,7 @@
                 value="2"
                 class="form-control"
                 data-group="analysis_illness_experiences"
+                {{ $inspection ? $inspection->illness[$key]["point"] == 2 ? "chcked" : "" : "" }}
               />
             </label>
           </td>
@@ -134,6 +168,7 @@
                 value="1"
                 class="form-control"
                 data-group="analysis_illness_experiences"
+                {{ $inspection ? $inspection->illness[$key]["point"] == 1 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -151,27 +186,52 @@
     <div class="grid grid-cols-2 gap-5 mb-6">
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Genogram Keluarga (Family Genogram) :</span>
-        <textarea id="family_genogram" rows="6" class="border-0 shadow-none outline-none" placeholder="(Buatlah genogram keluarga sesuai kaidah umum pembuatan genogram dan dilengkapi dengan keterangan/ legenda di bawahnya). Legenda (tambahkan sesuai kebutuhan):
-        *B= Breadwinner
-        *C= Caregiver
-        *D= Decision Maker"></textarea>
+        <textarea
+          id="family_genogram"
+          rows="6"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Buatlah genogram keluarga sesuai kaidah umum pembuatan genogram dan dilengkapi dengan keterangan/ legenda di bawahnya). Legenda (tambahkan sesuai kebutuhan):
+          *B= Breadwinner
+          *C= Caregiver
+          *D= Decision Maker"
+        >{{ $inspection ? $inspection->family_genogram : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Peta Keluarga (Family Map) :</span>
-        <textarea id="family_map" rows="6" class="border-0 shadow-none outline-none" placeholder="Mencakup keluarga inti/ tidak inti, baik yang tinggal di rumah dan tidak (Buatlah peta keluarga yang menggambarkan psikodinamika keluarga sesuai kaidah umum pembuatan peta keluarga dilengkapi dengan keterangan/legenda di bawahnya). Menggambarkan psikososial , dinamika keluarga, Jika garis tebal menunjukan kekuatan hubungan, semakin kuat makin tebal garisnya"></textarea>
+        <textarea
+          id="family_map"
+          rows="6"
+          class="border-0 shadow-none outline-none"
+          placeholder="Mencakup keluarga inti/ tidak inti, baik yang tinggal di rumah dan tidak (Buatlah peta keluarga yang menggambarkan psikodinamika keluarga sesuai kaidah umum pembuatan peta keluarga dilengkapi dengan keterangan/legenda di bawahnya). Menggambarkan psikososial , dinamika keluarga, Jika garis tebal menunjukan kekuatan hubungan, semakin kuat makin tebal garisnya"
+        >{{ $inspection ? $inspection->family_map : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Bentuk Keluarga (Family Structure) :</span>
-        <textarea id="family_structure" rows="3" class="border-0 shadow-none outline-none" placeholder=""></textarea>
+        <textarea
+          id="family_structure"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder=""
+        >{{ $inspection ? $inspection->family_structure : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Tahapan Siklus Kehidupan Keluarga (Family Life Cycle) :</span>
-        <textarea id="family_life_cycle" rows="3" class="border-0 shadow-none outline-none" placeholder=""></textarea>
+        <textarea
+          id="family_life_cycle"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder=""
+        >{{ $inspection ? $inspection->family_life_cycle : "" }}</textarea>
       </div>
       <div class="col-span-2 flex flex-col gap-1">
         <span class="text-sm font-semibold">APGAR Keluarga (Family APGAR) :</span>
-        <textarea id="family_apgar" rows="3" class="border-0 shadow-none outline-none" placeholder="[Adaptability-Partnership-Growth-Affection-Resolve]
-(Isilah instrumen APGAR berikut sebagai skrining awal untuk melihat adanya disfungsi keluarga)"></textarea>
+        <textarea
+          id="family_apgar"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="[Adaptability-Partnership-Growth-Affection-Resolve]
+(Isilah instrumen APGAR berikut sebagai skrining awal untuk melihat adanya disfungsi keluarga)"
+        >{{ $inspection ? $inspection->family_apgar : "" }}</textarea>
       </div>
     </div>
     <table class="anamnesis-table mb-6">
@@ -195,6 +255,7 @@
                 name="apgar-{{ $key + 1 }}"
                 value="2"
                 class="family_apgar_point form-control"
+                {{ $inspection ? $inspection->family_apgrs[$key]["point"] == 2 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -206,6 +267,7 @@
                 name="apgar-{{ $key + 1 }}"
                 value="1"
                 class="family_apgar_point form-control"
+                {{ $inspection ? $inspection->family_apgrs[$key]["point"] == 1 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -217,6 +279,7 @@
                 name="apgar-{{ $key + 1 }}"
                 value="0"
                 class="family_apgar_point form-control"
+                {{ $inspection ? $inspection->family_apgrs[$key]["point"] == 0 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -232,7 +295,12 @@
     </table>
     <div class="flex flex-col gap-1 mb-6">
       <span class="text-sm font-semibold">SCREEM Keluarga (Family SCREEM) :</span>
-      <textarea id="family_screem" rows="4" class="border-0 shadow-none outline-none" placeholder="(Social-Cultural-Religious-Educational-Economic-Medical)"></textarea>
+      <textarea
+        id="family_screem"
+        rows="4"
+        class="border-0 shadow-none outline-none"
+        placeholder="(Social-Cultural-Religious-Educational-Economic-Medical)"
+      >{{ $inspection ? $inspection->family_screem : "" }}</textarea>
     </div>
     <table class="anamnesis-table mb-6">
       <tr>
@@ -289,6 +357,7 @@
                 value="5"
                 class="form-control"
                 data-group="family_screems"
+                {{ $inspection ? $inspection->family_screems[$key]["point"] == 5 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -301,6 +370,7 @@
                 value="4"
                 class="form-control"
                 data-group="family_screems"
+                {{ $inspection ? $inspection->family_screems[$key]["point"] == 4 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -313,6 +383,7 @@
                 value="3"
                 class="form-control"
                 data-group="family_screems"
+                {{ $inspection ? $inspection->family_screems[$key]["point"] == 3 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -325,6 +396,7 @@
                 value="2"
                 class="form-control"
                 data-group="family_screems"
+                {{ $inspection ? $inspection->family_screems[$key]["point"] == 2 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -337,6 +409,7 @@
                 value="1"
                 class="form-control"
                 data-group="family_screems"
+                {{ $inspection ? $inspection->family_screems[$key]["point"] == 1 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -352,7 +425,12 @@
     </table>
     <div class="flex flex-col gap-1 mb-6">
       <span class="text-sm font-semibold">Perjalanan Hidup Keluarga (Family Life Line) :</span>
-      <textarea id="family_life_line" rows="4" class="border-0 shadow-none outline-none" placeholder="Uraikan tentang kejadian penting/ krisis dalam kehidupan keluarga pasien yang mungkin mempengaruhi keparahan sakit pasien (misal: kecelakaan lalu lintas, penyakit/ kematian anggota keluarga, PHK, pindah rumah/ pekerjaan, bencana alam, dll.)"></textarea>
+      <textarea
+        id="family_life_line"
+        rows="4"
+        class="border-0 shadow-none outline-none"
+        placeholder="Uraikan tentang kejadian penting/ krisis dalam kehidupan keluarga pasien yang mungkin mempengaruhi keparahan sakit pasien (misal: kecelakaan lalu lintas, penyakit/ kematian anggota keluarga, PHK, pindah rumah/ pekerjaan, bencana alam, dll)"
+      >{{ $inspection ? $inspection->family_life_line : "" }}</textarea>
     </div>
     <table class="anamnesis-table mb-6 severity-table">
       <tr>
@@ -372,11 +450,21 @@
     <div class="grid grid-cols-1 mb-4 gap-3">
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Keadaan Umum :</span>
-        <textarea id="general_condition" rows="3" class="border-0 shadow-none outline-none" placeholder=""></textarea>
+        <textarea
+          id="general_condition"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder=""
+        >{{ $inspection ? $inspection->general_condition : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Kesadaran :</span>
-        <textarea id="awareness" rows="3" class="border-0 shadow-none outline-none" placeholder=""></textarea>
+        <textarea
+          id="awareness"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder=""
+        >{{ $inspection ? $inspection->awareness : "" }}</textarea>
       </div>
     </div>
     <span>Antropometri:</span>
@@ -388,7 +476,13 @@
             <td class="pr-5">:</td>
             <td>
               <div class="flex items-center gap-2">
-                <input id="body_height" type="text" class="form-control border-0 w-[80%] text-sm" autocomplete="off">
+                <input
+                  id="body_height"
+                  type="text"
+                  class="form-control border-0 w-[80%] text-sm"
+                  autocomplete="off"
+                  value="{{ $inspection ? $inspection->body_height : "" }}"
+                />
                 <span class="font-semibold w-[10px]">cm</span>
               </div>
             </td>
@@ -398,7 +492,13 @@
             <td class="pr-5">:</td>
             <td>
               <div class="flex items-center gap-2">
-                <input id="body_weight" type="text" class="form-control border-0 w-[80%] text-sm" autocomplete="off">
+                <input
+                  id="body_weight"
+                  type="text"
+                  class="form-control border-0 w-[80%] text-sm"
+                  autocomplete="off"
+                  value="{{ $inspection ? $inspection->body_weight : "" }}"
+                />
                 <span class="font-semibold w-[10px]">kg</span>
               </div>
             </td>
@@ -408,7 +508,13 @@
             <td class="pr-5">:</td>
             <td>
               <div class="flex items-center gap-2">
-                <input id="body_waist_size" type="text" class="form-control border-0 w-[80%] text-sm" autocomplete="off">
+                <input
+                  id="body_waist_size"
+                  type="text"
+                  class="form-control border-0 w-[80%] text-sm"
+                  autocomplete="off"
+                  value="{{ $inspection ? $inspection->body_waist_size : "" }}"
+                />
                 <span class="font-semibold w-[10px]">cm</span>
               </div>
             </td>
@@ -418,7 +524,13 @@
             <td class="pr-5">:</td>
             <td>
               <div class="flex items-center gap-2">
-                <input id="body_hip_circumference" type="text" class="form-control border-0 text-sm w-[80%]" autocomplete="off">
+                <input
+                  id="body_hip_circumference"
+                  type="text"
+                  class="form-control border-0 text-sm w-[80%]"
+                  autocomplete="off"
+                  value="{{ $inspection ? $inspection->body_hip_circumference : "" }}"
+                />
                 <span class="font-semibold w-[10px]">cm</span>
               </div>
             </td>
@@ -428,7 +540,13 @@
             <td class="pr-5">:</td>
             <td>
               <div class="flex items-center gap-2">
-                <input id="body_upper_arm_circumference" type="text" class="form-control border-0 w-[80%] text-sm" autocomplete="off">
+                <input
+                  id="body_upper_arm_circumference"
+                  type="text"
+                  class="form-control border-0 w-[80%] text-sm"
+                  autocomplete="off"
+                  value="{{ $inspection ? $inspection->body_upper_arm_circumference : "" }}"
+                />
                 <span class="font-semibold w-[10px]">cm</span>
               </div>
             </td>
@@ -441,21 +559,37 @@
             <td class="w-[220px] font-semibold">Indeks Massa Tubuh (IMT)</td>
             <td class="pr-5">:</td>
             <td>
-              <input id="body_mass_index" type="text" class="form-control border-0 w-[80%] text-sm" autocomplete="off">
+              <input
+                id="body_mass_index"
+                type="text"
+                class="form-control border-0 w-[80%] text-sm"
+                autocomplete="off"
+                value="{{ $inspection ? $inspection->body_mass_index : "" }}"
+              />
             </td>
           </tr>
           <tr>
             <td class="w-[220px] font-semibold">Waist - Hip Ratio</td>
             <td class="pr-5">:</td>
             <td>
-              <input id="body_hip_ratio" type="text" class="form-control border-0 w-[80%] text-sm" autocomplete="off">
+              <input
+                id="body_hip_ratio"
+                type="text"
+                class="form-control border-0 w-[80%] text-sm"
+                autocomplete="off"
+                value="{{ $inspection ? $inspection->body_hip_ratio : "" }}"
+              />
             </td>
           </tr>
           <tr style="vertical-align: top">
             <td class="w-[220px] font-semibold pt-2">Status Gizi</td>
             <td class="pr-5 pt-2">:</td>
             <td>
-              <textarea id="body_status_nutrition" rows="4" class="border-0 w-[80%] text-sm"></textarea>
+              <textarea
+                id="body_status_nutrition"
+                rows="4"
+                class="border-0 w-[80%] text-sm"
+              >{{ $inspection ? $inspection->body_status_nutrition : "" }}</textarea>
             </td>
           </tr>
         </table>
@@ -465,37 +599,77 @@
     <div class="grid grid-cols-2 gap-5 mb-6">
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Kepala:</span>
-        <textarea id="general_examination_head" rows="3" class="border-0 shadow-none outline-none" placeholder="Isikan keluhan utama"></textarea>
+        <textarea
+          id="general_examination_head"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Isikan keluhan utama"
+        >{{ $inspection ? $inspection->general_examination_head : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Abdomen:</span>
-        <textarea id="general_examination_abdomen" rows="3" class="border-0 shadow-none outline-none" placeholder="Isikan keluhan utama"></textarea>
+        <textarea
+          id="general_examination_abdomen"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Isikan keluhan utama"
+        >{{ $inspection ? $inspection->general_examination_abdomen : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Leher:</span>
-        <textarea id="general_examination_neck" rows="3" class="border-0 shadow-none outline-none" placeholder="Isikan keluhan utama"></textarea>
+        <textarea
+          id="general_examination_neck"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Isikan keluhan utama"
+        >{{ $inspection ? $inspection->general_examination_neck : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Anogenital:</span>
-        <textarea id="general_examination_anogenital" rows="3" class="border-0 shadow-none outline-none" placeholder="Isikan keluhan utama"></textarea>
+        <textarea
+          id="general_examination_anogenital"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Isikan keluhan utama"
+        >{{ $inspection ? $inspection->general_examination_anogenital : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Thoraks:</span>
-        <textarea id="general_examination_thoraks" rows="3" class="border-0 shadow-none outline-none" placeholder="Isikan keluhan utama"></textarea>
+        <textarea
+          id="general_examination_thoraks"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Isikan keluhan utama"
+        >{{ $inspection ? $inspection->general_examination_thoraks : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-1">
         <span class="text-sm font-semibold">Ekstremitas:</span>
-        <textarea id="general_examination_ekstremitas" rows="3" class="border-0 shadow-none outline-none" placeholder="Isikan keluhan utama"></textarea>
+        <textarea
+          id="general_examination_ekstremitas"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Isikan keluhan utama"
+        >{{ $inspection ? $inspection->general_examination_ekstremitas : "" }}</textarea>
       </div>
     </div>
     <div class="grid grid-cols-1 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">PEMERIKSAAN KHUSUS :</span>
-        <textarea id="special_inspection" rows="3" class="border-0 shadow-none outline-none" placeholder="Lansia, pemeriksaan neurologis, tumbuh kembang, ANC dll"></textarea>
+        <textarea
+          id="special_inspection"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Lansia, pemeriksaan neurologis, tumbuh kembang, ANC dll"
+        >{{ $inspection ? $inspection->special_inspection : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">STATUS NUTRISI DAN PENILAIAN AKTIFITAS FISIK :</span>
-        <textarea id="nutritional_status_and_physical_activity" rows="3" class="border-0 shadow-none outline-none" placeholder=""></textarea>
+        <textarea
+          id="nutritional_status_and_physical_activity"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder=""
+        >{{ $inspection ? $inspection->nutritional_status_and_physical_activity : "" }}</textarea>
       </div>
     </div>
     <span class="text-lg font-semibold">PEMERIKSAAN PENUNJANG</span>
@@ -504,28 +678,51 @@
         <td class="w-[150px]">Laboratorium</td>
         <td class="w-[30px]">:</td>
         <td>
-          <input id="laboratory_examination" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="laboratory_examination"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->laboratory_examination : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td class="w-[150px]">Radiologi</td>
         <td class="w-[30px]">:</td>
         <td>
-          <input id="radiological_examination" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="radiological_examination"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->radiological_examination : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td class="w-[150px]">Lainnnya</td>
         <td class="w-[30px]">:</td>
         <td>
-          <input id="other_examination" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="other_examination"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->other_examination : "" }}"
+          />
         </td>
       </tr>
     </table>
     <div class="grid grid-cols-1 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">DIAGNOSIS BANDING :</span>
-        <textarea id="differential_diagnosis" rows="3" class="border-0 shadow-none outline-none" placeholder="Diagnosis pasti/ d/kerja hanya ada di aspek klinis"></textarea>
+        <textarea
+          id="differential_diagnosis"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="Diagnosis pasti/ d/kerja hanya ada di aspek klinis"
+        >{{ $inspection ? $inspection->differential_diagnosis : "" }}</textarea>
       </div>
     </div>
     <h4 class="font-semibold">LAIN-LAIN (TERMASUK DATA DARI OBSERVASI RUMAH PASIEN)</h4>
@@ -553,6 +750,7 @@
                 value="true"
                 class="form-control"
                 data-group="phbs_indicators"
+                {{ $inspection ? $inspection->phbs_indicators[$key]["answer"] == 1 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -565,6 +763,7 @@
                 value="false"
                 class="form-control"
                 data-group="phbs_indicators"
+                {{ $inspection ? $inspection->phbs_indicators[$key]["answer"] == 0 ? "checked" : "" : "" }}
               />
             </label>
           </td>
@@ -576,14 +775,25 @@
         <td style="width: 160px">Kesimpulan</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="conclusion_examination" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="conclusion_examination"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->conclusion_examination : "" }}"
+          />
         </td>
       </tr>
     </table>
     <div class="grid grid-cols-1 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">Asesmen Rumah Sehat :</span>
-        <textarea id="healthy_home_assessment" rows="3" class="border-0 shadow-none outline-none" placeholder=""></textarea>
+        <textarea
+          id="healthy_home_assessment"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder=""
+        >{{ $inspection ? $inspection->healthy_home_assessment : "" }}</textarea>
       </div>
     </div>
     <div class="font-bold mb-4">DIAGNOSIS HOLISTIK</div>
@@ -592,42 +802,78 @@
         <td style="width: 250px">Aspek Klinis</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="holistic_diagnosis_clinical" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="holistic_diagnosis_clinical"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->holistic_diagnosis_clinical : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td style="width: 250px">Aspek Personal</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="holistic_diagnosis_personal" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="holistic_diagnosis_personal"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->holistic_diagnosis_personal : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td style="width: 250px">Aspek Risiko Internal</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="holistic_diagnosis_internal_risk" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="holistic_diagnosis_internal_risk"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->holistic_diagnosis_internal_risk : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td style="width: 250px">Aspek Risiko Eksternal</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="holistic_diagnosis_external_risk" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="holistic_diagnosis_external_risk"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->holistic_diagnosis_external_risk : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td style="width: 250px">Aspek Derajat Fungsional</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="holistic_diagnosis_functional_degree" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="holistic_diagnosis_functional_degree"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->holistic_diagnosis_functional_degree : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td style="width: 250px">Uraian Diagnosis Holistik</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="holistic_diagnosis_description" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="holistic_diagnosis_description"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->holistic_diagnosis_description : "" }}"
+          />
         </td>
       </tr>
     </table>
@@ -635,7 +881,11 @@
     <div class="grid grid-cols-1 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">Patient-Centered :</span>
-        <textarea id="patient_centered" rows="12" class="border-0 shadow-none outline-none" placeholder="Bagaimana level of preventionnya
+        <textarea
+          id="patient_centered"
+          rows="12"
+          class="border-0 shadow-none outline-none"
+          placeholder="Bagaimana level of preventionnya
 a. edukasi terkait penyakit ( bisa disertai motivasi), perilaku (pola makan, aktifitas fisik, dll)
 b. perhatikan langkah pendidikan pasien Asesmen, Perencanaan, Implementasi, Evaluasi (APIE)
 c. kuratif - terapi farmakologi
@@ -643,11 +893,17 @@ d. rehabilitative - program fisioterapi (bila ada)
 
 Perhatikan 8 dimensi patient centered approach: menghormati pilihan dan penilaian pasien, pelayanan terkoordinasi, informasi dan edukasi, kenyamanan fisik, dukungan emosi, keterlibatan pasien, kontinu, kemudahan akses layanan)
 
-Perhatikan kolaborasi interprofesi dan apakah perlu digolongkan dalam manajemen kasus di layanan primer? (diagnosis > 2 penyakit, sangat perlu dukungan keluarga, status fungsional turun)"></textarea>
+Perhatikan kolaborasi interprofesi dan apakah perlu digolongkan dalam manajemen kasus di layanan primer? (diagnosis > 2 penyakit, sangat perlu dukungan keluarga, status fungsional turun)"
+        >{{ $inspection ? $inspection->patient_centered : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">Family-Focused (Family Wellness Plan) :</span>
-        <textarea id="family_focused" rows="3" class="border-0 shadow-none outline-none" placeholder="edukasi dll yg mengacu ke level of prevention sesuai siklus kehidupan. Penekanan terhadap intervensi gizi, aktifitas fisik, dll. Perhatikan: keterlibatan keluarga dalam penatalaksanaan pasien, hasil analisis family assestment tool, apa risiko dan kebutuhan keluarga, potensi dan kekurangan. Rencana family meeting?"></textarea>
+        <textarea
+          id="family_focused"
+          rows="3"
+          class="border-0 shadow-none outline-none"
+          placeholder="edukasi dll yg mengacu ke level of prevention sesuai siklus kehidupan. Penekanan terhadap intervensi gizi, aktifitas fisik, dll. Perhatikan: keterlibatan keluarga dalam penatalaksanaan pasien, hasil analisis family assestment tool, apa risiko dan kebutuhan keluarga, potensi dan kekurangan. Rencana family meeting?"
+        >{{ $inspection ? $inspection->family_focused : "" }}</textarea>
       </div>
     </div>
     <table class="anamnesis-table mb-6 famfocus-table">
@@ -668,7 +924,11 @@ Perhatikan kolaborasi interprofesi dan apakah perlu digolongkan dalam manajemen 
     <div class="grid grid-cols-1 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">Community-Oriented :</span>
-        <textarea id="community_oriented" rows="10" class="border-0 shadow-none outline-none" placeholder="(Tujuan: untuk kesinambungan pelayanan pasien dan memenuhi kebutuhan di komunitas)
+        <textarea
+          id="community_oriented"
+          rows="10"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Tujuan: untuk kesinambungan pelayanan pasien dan memenuhi kebutuhan di komunitas)
     a. Untuk kesinambungan pelayanan: apa dukungan dan hambatan di komunitas yang dapat berpengaruh pada pasien dan keluarga? Bagaimana rencana penatalaksanaan?
     b. Untuk memenuhi kebutuhan komunitas
 Perhatikan:
@@ -676,7 +936,8 @@ Perhatikan:
     2) Faktor apa yang menyebabkan kondisi kesehatan tersebut? (Apa potensi dan hambatan di komunitas)
     3) Apa yang sudah dilakukan oleh sistem kesehatan dan komunitas?
     4) Apa yang bisa diusulkan, dilakukan, dan hasil apa yang diharapkan?
-    5) Ukuran apa yang diperlukan untuk melanjutkan surveilans kesehatan di komunitas dan bagaimana mengukur efek hasil intervensi yang sudah dilakukan?"></textarea>
+    5) Ukuran apa yang diperlukan untuk melanjutkan surveilans kesehatan di komunitas dan bagaimana mengukur efek hasil intervensi yang sudah dilakukan?"
+        >{{ $inspection ? $inspection->community_oriented : "" }}</textarea>
       </div>
     </div>
     <div class="font-semibold mb-4">Data Anggota Keluarga Inti (Keluarga Asal)</div>
@@ -714,8 +975,13 @@ Perhatikan:
     <div class="grid grid-cols-1 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">Kondisi Rumah :</span>
-        <textarea id="house_condition" rows="4" class="border-0 shadow-none outline-none" placeholder="Penilaian rumah sehat
-(Jelaskan tentang kepemilikan rumah, situasi lokasi rumah, ukuran rumah, jenis dinding, lantai dan atap, kepadatan, kebersihan, pencahayaan, ventilasi, sumber dan penampungan air serta sanitasi., denah jika diperlukan)"></textarea>
+        <textarea
+          id="house_condition"
+          rows="4"
+          class="border-0 shadow-none outline-none"
+          placeholder="Penilaian rumah sehat
+(Jelaskan tentang kepemilikan rumah, situasi lokasi rumah, ukuran rumah, jenis dinding, lantai dan atap, kepadatan, kebersihan, pencahayaan, ventilasi, sumber dan penampungan air serta sanitasi., denah jika diperlukan)"
+        >{{ $inspection ? $inspection->house_condition : "" }}</textarea>
       </div>
     </div>
     <div class="font-semibold mb-4">Penilaian Rumah Sehat</div>
@@ -736,6 +1002,10 @@ Perhatikan:
         <td></td>
       </tr>
       @foreach ($komponen_rumah as $key => $item)
+        @php
+          $group1 = null;
+          if ($inspection) $group1 = $inspection->healthy_home_assessments->groupBy("group")[$item["group"]];
+        @endphp
         <tr>
           <td class="text-center font-semibold" style="vertical-align: top" rowspan="4">{{ $key + 1 }}</td>
           <td class="font-semibold" style="vertical-align: top" rowspan="4">{{ $item["komponen"] }}</td>
@@ -757,18 +1027,23 @@ Perhatikan:
                   data-group="{{ $item["group"] }}"
                   data-target="{{ $item["group"] }}-{{ $key }}"
                   data-weight="25"
+                  {{ $inspection ? $group1[$key]["point"] == $item["point"][$key2] ? "checked" : "" : "" }}
                 />
               </label>
             </td>
             @if ($key2 / 3 == 0)
-              <td rowspan="3" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}"></td>
+              <td rowspan="3" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}">
+                {{ $inspection ? $group1[$key]["point"] * 25 : "" }}
+              </td>
             @endif
           </tr>
         @endforeach
       @endforeach
       <tr>
         <td colspan="3" class="font-bold text-right">HASIL PENILAIAN</td>
-        <td colspan="3" class="text-left font-bold" id="home_components">0</td>
+        <td colspan="3" class="text-left font-bold" id="home_components">
+          {{ $inspection ? $group1->sum("point") * 25 : 0 }}
+        </td>
       </tr>
       <tr style="background: #D9D9D9">
         <td colspan="4" class="font-bold">
@@ -778,6 +1053,10 @@ Perhatikan:
         <td></td>
       </tr>
       @foreach ($sarana_sanitasi as $key => $item)
+        @php
+          $group2 = null;
+          if ($inspection) $group2 = $inspection->healthy_home_assessments->groupBy("group")[$item["group"]];
+        @endphp
         <tr>
           <td class="text-center font-semibold" style="vertical-align: top" rowspan="{{ $key == 3 ? 5 : 6 }}">{{ $key + 1 }}</td>
           <td class="font-semibold" style="vertical-align: top" rowspan="{{ $key == 3 ? 5 : 6 }}">{!! $item["komponen"] !!}</td>
@@ -799,18 +1078,23 @@ Perhatikan:
                   data-group="{{ $item["group"] }}"
                   data-target="{{ $item["group"] }}-{{ $key }}"
                   data-weight="45"
+                  {{ $inspection ? $group2[$key]["point"] == $item["point"][$key2] ? "checked" : "" : "" }}
                 />
               </label>
             </td>
             @if ($key2 / 3 == 0)
-              <td rowspan="{{ $key == 3 ? 4 : 5 }}" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}"></td>
+              <td rowspan="{{ $key == 3 ? 4 : 5 }}" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}">
+                {{ $inspection ? $group2[$key]["point"] * 45 : "" }}
+              </td>
             @endif
           </tr>
         @endforeach
       @endforeach
       <tr>
         <td colspan="3" class="font-bold text-right">HASIL PENILAIAN</td>
-        <td colspan="3" class="text-left font-bold" id="sanitation_facilities">0</td>
+        <td colspan="3" class="text-left font-bold" id="sanitation_facilities">
+          {{ $inspection ? $group2->sum("point") * 45 : 0 }}
+        </td>
       </tr>
       <tr style="background: #D9D9D9">
         <td colspan="4" class="font-bold">
@@ -820,6 +1104,10 @@ Perhatikan:
         <td></td>
       </tr>
       @foreach ($perilaku_penghuni as $key => $item)
+        @php
+          $group3 = null;
+          if ($inspection) $group3 = $inspection->healthy_home_assessments->groupBy("group")[$item["group"]];
+        @endphp
         <tr>
           <td class="text-center font-semibold" style="vertical-align: top" rowspan="4">{{ $key + 1 }}</td>
           <td class="font-semibold" style="vertical-align: top" rowspan="4">{{ $item["komponen"] }}</td>
@@ -841,39 +1129,71 @@ Perhatikan:
                   data-group="{{ $item["group"] }}"
                   data-target="{{ $item["group"] }}-{{ $key }}"
                   data-weight="30"
+                  {{ $inspection ? $group3[$key]["point"] == $item["point"][$key2] ? "checked" : "" : "" }}
                 />
               </label>
             </td>
             @if ($key2 / 3 == 0)
-              <td rowspan="3" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}"></td>
+              <td rowspan="3" class="text-center font-semibold {{ $item["group"] }}" id="{{ $item["group"] }}-{{ $key }}">
+                {{ $inspection ? $group3[$key]["point"] * 30 : "" }}
+              </td>
             @endif
           </tr>
         @endforeach
       @endforeach
       <tr>
         <td colspan="3" class="font-bold text-right">HASIL PENILAIAN</td>
-        <td colspan="3" class="text-left font-bold" id="occupant_behavior">0</td>
+        <td colspan="3" class="text-left font-bold" id="occupant_behavior">
+          {{ $inspection ? $group3->sum("point") * 30 : 0 }}
+        </td>
       </tr>
       <tr>
         <td colspan="3" class="font-bold text-right">TOTAL HASIL PENILAIAN</td>
         <td colspan="3" class="text-left font-bold">
-          <span id="healthy_home_assessments-totalpoint">0</span>
-          (<span id="healthy_home_assessments-information">Tidak di ketahui</span>)
+          @php
+            $totalPoint = 0;
+            $totalPointInfo = "";
+            if ($inspection) {
+              $totalPoint = ($group1->sum("point") * 25) + ($group2->sum("point") * 45) + ($group3->sum("point") * 30);
+              $totalPointInfo = $totalPoint < 1410 ? "Kurang Memenuhi Syarat" : "Memenuhi Syarat";
+            }
+          @endphp
+          <span id="healthy_home_assessments-totalpoint">
+            {{ $inspection ? $totalPoint : 0 }}
+          </span>
+          (<span id="healthy_home_assessments-information">
+            {{ $inspection ? $totalPointInfo : "Tidak di ketahui" }}
+          </span>)
         </td>
       </tr>
     </table>
     <div class="grid grid-cols-1 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <span class="text-sm">Kesan :</span>
-        <textarea id="impression" rows="5" class="border-0 shadow-none outline-none" placeholder=""></textarea>
+        <textarea
+          id="impression"
+          rows="5"
+          class="border-0 shadow-none outline-none"
+          placeholder=""
+        >{{ $inspection ? $inspection->impression : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-sm">Lingkungan Sekitar Rumah :</span>
-        <textarea id="environment_around_house" rows="5" class="border-0 shadow-none outline-none" placeholder="(Jelaskan tentang sumber dan penampungan air, pengaturan limbah, pembuangan sampah, situasi halaman, selokan, serta gambaran kedekatan dengan rumah tetangga sekitar)"></textarea>
+        <textarea
+          id="environment_around_house"
+          rows="5"
+          class="border-0 shadow-none outline-none"
+          placeholder="(Jelaskan tentang sumber dan penampungan air, pengaturan limbah, pembuangan sampah, situasi halaman, selokan, serta gambaran kedekatan dengan rumah tetangga sekitar)"
+        >{{ $inspection ? $inspection->environment_around_house : "" }}</textarea>
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-sm">Lingkungan Pekerjaan :</span>
-        <textarea id="work_environment" rows="5" class="border-0 shadow-none outline-none" placeholder="Lingkungan Pekerjaan > jika pasien bekerja deskripsikan apakah ada paparan dari lingkungan kerja , contoh pabrik rokok, ventilasi nya, sirkulasinya baik atau tidak"></textarea>
+        <textarea
+          id="work_environment"
+          rows="5"
+          class="border-0 shadow-none outline-none"
+          placeholder="Lingkungan Pekerjaan > jika pasien bekerja deskripsikan apakah ada paparan dari lingkungan kerja , contoh pabrik rokok, ventilasi nya, sirkulasinya baik atau tidak"
+        >{{ $inspection ? $inspection->work_environment : "" }}</textarea>
       </div>
     </div>
     <div class="font-bold mb-4">CATATAN TAMBAHAN HASIL KUNJUNGAN RUMAH</div>
@@ -895,27 +1215,47 @@ Perhatikan:
         <td style="width: 250px">Ad vitam</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="ad_vitam" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="ad_vitam"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->ad_vitam : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td style="width: 250px">Ad functionam</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="ad_functionam" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="ad_functionam"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->ad_functionam : "" }}"
+          />
         </td>
       </tr>
       <tr>
         <td style="width: 250px">Ad sanationam</td>
         <td style="width: 50px">:</td>
         <td>
-          <input id="ad_sanationam" type="text" class="border-0 w-full" autocomplete="off">
+          <input
+            id="ad_sanationam"
+            type="text"
+            class="border-0 w-full"
+            autocomplete="off"
+            value="{{ $inspection ? $inspection->ad_sanationam : "" }}"
+          />
         </td>
       </tr>
     </table>
     <input type="hidden" id="uuid" value="{{ $uuid }}">
     <div class="mt-24">
-      <button type="button" class="bg-white font-bold shadow-lg w-full py-3" onclick="storeInspection()">Simpan</button>
+      <button type="button" class="bg-white font-bold shadow-lg w-full py-3" onclick="saveInspection()">
+        {{ $inspection ? "Simpan Perubahan" : "Simpan" }}
+      </button>
     </div>
   </div>
 </div>
@@ -1003,7 +1343,6 @@ Perhatikan:
     $("#healthy_home_assessments-totalpoint").text(assessments_total);
     $("#healthy_home_assessments-information").text(assessments_info);
   });
-
 
   function addSeverity() {
     const table = document.querySelector(".severity-table").querySelector("tbody");
@@ -1180,7 +1519,7 @@ Perhatikan:
     nodeIter3 = nodeIter3 + 1;
   }
 
-  function storeInspection() {
+  function saveInspection() {
     const analysis_illness_experiences_question = [];
     $("input[name='analysis_illness_experiences_question']").each(function() {
       analysis_illness_experiences_question.push($(this).val());
@@ -1264,7 +1603,7 @@ Perhatikan:
       }
     });
 
-    if (healthy_home_assessments_point.length < 17) return alert("Penilaian Rumah Sehat Belum lengkap");
+    // if (healthy_home_assessments_point.length < 17) return alert("Penilaian Rumah Sehat Belum lengkap");
 
     const screem_aspects_question = [];
     $("input[name='screem_aspects']").each(function() {
@@ -1367,8 +1706,13 @@ Perhatikan:
     });
 
     $.ajax({
-      url: "{{ route('inspection.store') }}",
-      type: "POST",
+      @if($inspection)
+        url: "{{ route('inspection.update') }}",
+        type: "PUT",
+      @else
+        url: "{{ route('inspection.store') }}",
+        type: "POST",
+      @endif
       data: {
         _token: "{{ csrf_token() }}",
         uuid: $("#uuid").val(),
