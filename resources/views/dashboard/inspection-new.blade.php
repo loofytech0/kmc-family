@@ -317,10 +317,10 @@
           <input type="hidden" name="screem_aspects" value="{{ $item }}">
         </td>
         <td>
-            <input type="text" name="screem_aspects_strength" value="" class="w-full" autocomplete="off">
+            <input type="text" name="screem_aspects_strength" value="{{ $inspection ? $inspection->screem_aspects[$key]["strength"] : "" }}" class="w-full" autocomplete="off">
           </td>
           <td>
-            <input type="text" name="screem_aspects_weakness" value="" class="w-full" autocomplete="off">
+            <input type="text" name="screem_aspects_weakness" value="{{ $inspection ? $inspection->screem_aspects[$key]["weakness"] : "" }}" class="w-full" autocomplete="off">
           </td>
         </tr>
       @endforeach
@@ -440,6 +440,53 @@
         <th>Life Events/ Crisis</th>
         <th>Severity of Illness</th>
       </tr>
+      @if ($inspection && isset($inspection->family_life_lines))
+        @foreach ($inspection->family_life_lines as $key => $item)
+          <tr>
+            <td class="text-center font-semibold">{{ $key + 1 }}</td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_life_lines_year"
+                id="family_life_lines_year{{ $key + 99 }}"
+                value="{{ $item->year }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_life_lines_age"
+                id="family_life_lines_age{{ $key + 99 }}"
+                value="{{ $item->age }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_life_lines_life_events"
+                id="family_life_lines_life_events{{ $key + 99 }}"
+                value="{{ $item->life_events }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_life_lines_illness"
+                id="family_life_lines_illness{{ $key + 99 }}"
+                value="{{ $item->illness }}"
+                autocomplete="off"
+              />
+            </td>
+          </tr>
+        @endforeach
+      @endif
       <tr class="severity-add">
         <td colspan="5" class="font-bold text-center">
           <button class="w-full" onclick="addSeverity()">+ Tambah Field</button>
@@ -915,6 +962,63 @@ Perhatikan kolaborasi interprofesi dan apakah perlu digolongkan dalam manajemen 
         <th>Risiko Penyakit</th>
         <th>Intervensi Pencegahan</th>
       </tr>
+      @if ($inspection && isset($inspection->family_focuseds))
+        @foreach ($inspection->family_focuseds as $key => $item)
+          <tr>
+            <td class="text-center font-semibold">{{ $key + 1 }}</td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_focuseds_name"
+                id="family_focuseds_name{{ $key + 99 }}"
+                value="{{ $item->name }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_focuseds_age"
+                id="family_focuseds_age{{ $key + 99 }}"
+                value="{{ $item->age }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_focuseds_health_status"
+                id="family_focuseds_health_status{{ $key + 99 }}"
+                value="{{ $item->health_status }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_focuseds_risk_disease"
+                id="family_focuseds_risk_disease{{ $key + 99 }}"
+                value="{{ $item->risk_disease }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="family_focuseds_preventive_intervention"
+                id="family_focuseds_preventive_intervention{{ $key + 99 }}"
+                value="{{ $item->preventive_intervention }}"
+                autocomplete="off"
+              />
+            </td>
+          </tr>
+        @endforeach
+      @endif
       <tr class="famfocus-add">
         <td colspan="6" class="font-bold text-center">
           <button class="w-full" onclick="addFamfocus()">+ Tambah Field</button>
@@ -954,19 +1058,49 @@ Perhatikan:
         <tr>
           <td class="font-bold text-center">{{ $i + 1 }}</td>
           <td>
-            <input type="text" name="main_families_name" value="" class="w-full" autocomplete="off">
+            <input
+              type="text"
+              name="main_families_name"
+              value="{{ isset($inspection->main_families[$i]) ? $inspection->main_families[$i]["name"] : "" }}"
+              class="w-full"
+              autocomplete="off"
+            />
           </td>
           <td>
-            <input type="text" name="main_families_gender" value="" class="w-full" autocomplete="off">
+            <input
+              type="text"
+              name="main_families_gender"
+              value="{{ isset($inspection->main_families[$i]) ? $inspection->main_families[$i]["gender"] : "" }}"
+              class="w-full"
+              autocomplete="off"
+            />
           </td>
           <td>
-            <input type="date" name="main_families_birth_date" value="" class="w-full" autocomplete="off">
+            <input
+              type="date"
+              name="main_families_birth_date"
+              value="{{ isset($inspection->main_families[$i]) ? $inspection->main_families[$i]["birth_date"] : "" }}"
+              class="w-full"
+              autocomplete="off"
+            />
           </td>
           <td>
-            <input type="text" name="main_families_job" value="" class="w-full" autocomplete="off">
+            <input
+              type="text"
+              name="main_families_job"
+              value="{{ isset($inspection->main_families[$i]) ? $inspection->main_families[$i]["job"] : "" }}"
+              class="w-full"
+              autocomplete="off"
+            />
           </td>
           <td>
-            <input type="text" name="main_families_health_status" value="" class="w-full" autocomplete="off">
+            <input
+              type="text"
+              name="main_families_health_status"
+              value="{{ isset($inspection->main_families[$i]) ? $inspection->main_families[$i]["health_status"] : "" }}"
+              class="w-full"
+              autocomplete="off"
+            />
           </td>
         </tr>
       @endfor
@@ -1204,6 +1338,43 @@ Perhatikan:
         <th>Tanggal</th>
         <th>Catatan, Kesimpulan dan Rencana Tindak Lanjut</th>
       </tr>
+      @if ($inspection && isset($inspection->home_visit_results))
+        @foreach ($inspection->home_visit_results as $key => $item)
+          <tr>
+            <td class="text-center font-semibold">{{ $key + 1 }}</td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="home_visit_results_visit_number"
+                id="home_visit_results_visit_number{{ $key + 99 }}"
+                value="{{ $item->visit_number }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="date"
+                class="w-full"
+                name="home_visit_results_visit_date"
+                id="home_visit_results_visit_date{{ $key + 99 }}"
+                value="{{ $item->visit_date }}"
+                autocomplete="off"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="w-full"
+                name="home_visit_results_note"
+                id="home_visit_results_note{{ $key + 99 }}"
+                value="{{ $item->note }}"
+                autocomplete="off"
+              />
+            </td>
+          </tr>
+        @endforeach
+      @endif
       <tr class="catatan-add">
         <td colspan="6" class="font-bold text-center">
           <button class="w-full" onclick="addCatatan()">+ Tambah Field</button>

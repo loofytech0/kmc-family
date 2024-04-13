@@ -34,4 +34,24 @@ class Inspection extends Model
 	public function healthy_home_assessments() {
 		return $this->hasMany(HealthyHomeAssessment::class, "inspection_id");
 	}
+
+	public function screem_aspects() {
+		return $this->hasMany(ScreemAspect::class, "inspection_id");
+	}
+
+	public function main_families() {
+		return $this->hasMany(MainFamily::class, "inspection_id");
+	}
+
+	public function family_life_lines() {
+		return $this->hasMany(FamilyLifeLine::class, "inspection_id");
+	}
+
+	public function family_focuseds() {
+		return $this->hasMany(FamilyFocused::class, "inspection_id");
+	}
+
+	public function home_visit_results() {
+		return $this->hasMany(HomeVisitResults::class, "inspection_id");
+	}
 }
