@@ -14,11 +14,11 @@ use App\Models\MainFamily;
 use App\Models\Patient;
 use App\Models\PhbsIndicator;
 use App\Models\ScreemAspect;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DashboardController extends Controller
 {
@@ -652,7 +652,6 @@ class DashboardController extends Controller
 	}
 
 	public function inspectionUpdate(Request $request) {
-		// dd($request->analysis_illness_experiences);
 		try {
 			DB::beginTransaction();
 			
@@ -872,5 +871,224 @@ class DashboardController extends Controller
 
 	public function report() {
 		return view("dashboard.report");
+	}
+
+	public function dataReport(Request $request) {
+		$inspection = Inspection::with("patient")->whereDay("created_at", "=", date("d"))->orderBy("created_at", "desc")->take($request->length)->get();
+
+		return DataTables::of($inspection)->toJson();
+	}
+
+	public function showReport(Request $request) {
+		$inspection = Inspection::where("inspections_code", $request->uuid)->first();
+		if (!$inspection) return abort(404);
+
+		$komponen_rumah = [
+			[
+				"komponen" => "Langit - langit",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada, kotor, sulit dibersihkan, dan rawan kecelakaan",
+					"Ada, bersih dan tidak rawan kecelakaan"
+				],
+				"point" => [0, 1, 2],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Dinding",
+				"kriteria" => [
+					"Bukan tembok (terbuat dari anyaman bambu/ilalang)",
+					"Semi permanen/setengah tembok/pasangan bata atau batu yang tidak diplester/papan yang tidak kedap air",
+					"Permanen (Tembok/pasangan batu bata yang diplester/papan kedap air)"
+				],
+				"point" => [1, 2, 3],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Lantai",
+				"kriteria" => [
+					"Tanah",
+					"Papan/anyaman bambu dekat dengan tanah/plesteran yang retak dan berdebu",
+					"Diplester/ubin/keramik/papan (rumah panggung)"
+				],
+				"point" => [1, 2, 3],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Ruang untuk istirahat / tidur",
+				"kriteria" => [
+					"Ukuran kamar tidur < 8m2 untuk 2 orang, tidak dipisah antara kamar tidur orang tua dan anak, dan tidak dipisah antara kamar tidur anak laki dan perempuan",
+					"Ukuran kamar tidur ≥ 8m2 untuk 2 orang, dipisah antara kamar tidur orang tua dan anak, tidak dipisah antara kamar tidur anak laki dan perempuan",
+					"Ukuran kamar tidur ≥ 8m2 untuk 2 orang, dipisah antara kamar tidur orang tua dan anak, dipisah antara kamar tidur anak laki dan perempuan"
+				],
+				"point" => [1, 2, 3],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Jendela Kamar Tidur",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada dan tidak memenuhi syarat (< 5% luas lantai ruangan kamar tidur)",
+					"Ada dan memenuhi syarat (≥ 5% luas lantai ruang keluarga)"
+				],
+				"point" => [0, 1, 2],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Jendela Ruang Keluarga",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada dan tidak memenuhi syarat (< 5% luas lantai ruang keluarga)",
+					"Ada dan memenuhi syarat (≥ 5% luas lantai ruang keluarga)"
+				],
+				"point" => [0, 1, 2],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Ventilasi",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada, lubang ventilasi dapur < 10% dari luas lantai",
+					"Ada, lubang ventilasi > 10% dari luas lantai"
+				],
+				"point" => [0, 1, 2],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Lubang Asap Dapur",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada, lubang ventilasi dapur < 10% dari luas lantai dapur",
+					"Ada, lubang ventilasi dapur > 10% dari luas lantai dapur (asap keluar dengan sempurna) atau ada exhaust fan atau ada peralatan lain yang sejenis."
+				],
+				"point" => [0, 1, 2],
+				"group" => "home_components"
+			],
+			[
+				"komponen" => "Pencahayaan",
+				"kriteria" => [
+					"Tidak terang, tidak dapat dipergunakan untuk membaca",
+					"Kurang terang, sehingga kurang jelas untuk membaca dengan normal",
+					"Terang dan tidak silau sehingga dapat dipergunakan untuk membaca dengan normal."
+				],
+				"point" => [0, 1, 2],
+				"group" => "home_components"
+			],
+		];
+		$sarana_sanitasi = [
+			[
+				"komponen" => "<span>Sarana Air Bersih Keterangan:<br/><br/> Syarat kesehatan fisik air bersih: Air tidak berwarna, tidak berbau, jernih dengan suhu di bawah suhu udara sehingga menimbulkan rasa nyaman</span>",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada, bukan milik sendiri dan tidak memenuhi syarat kesehatan fisik air bersih",
+					"Ada, milik sendiri dan tidak memenuhi syarat kesehatan fisik air bersih",
+					"Ada, milik sendiri dan memenuhi syarat kesehatan fisik air bersih",
+					"Ada, bukan milik sendiri dan memenuhi syarat kesehatan fisik air bersih"
+				],
+				"point" => [0, 1, 2, 3, 4],
+				"group" => "sanitation_facilities"
+			],
+			[
+				"komponen" => "<span>Jamban (sarana pembuangan kotoran)</span>",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada, bukan leher angsa, tidak ada tutup, disalurkan ke sungai / kolam",
+					"Ada, bukan leher angsa, ada tutup, disalurkan ke sungai atau kolam",
+					"Ada, bukan leher angsa, ada tutup, septic tank",
+					"Ada, leher angsa, septic tank, memenuhi pembuangan kotoran BAB yang baik"
+				],
+				"point" => [0, 1, 2, 3, 4],
+				"group" => "sanitation_facilities"
+			],
+			[
+				"komponen" => "<span>Sarana Pembuangan Air Limbah (SPAL) Keterangan:
+				<br />
+				Pembuangan kotoran BAB yang baik:
+				<br /><br />
+				1.  Kotoran manusia tidak mencemari permukaan tanah.
+				<br />
+				2. Kotoran manusia tidak mencemari air permukaan/ air tanah.
+				<br />
+				3. Kotoran manusia tidak dijamah lalat.
+				<br />
+				4. Jamban tidak menimbulkan bau yang mengganggu Konstruksi jamban tidak menimbulkan kecelakaan</span>",
+				"kriteria" => [
+					"Tidak ada, sehingga tergenang tidak teratur di halaman",
+					"Ada, diresapkan tetapi mencemari sumber air (jarak sumber air : (jarak dengan sumber air < 10m)",
+					"Ada, dialirkan ke selokan terbuka",
+					"Ada, diresapkan dan tidak mencemari sumber air (jarak dengan sumber air ≥ 10m)",
+					"Ada, dialirkan ke selokan tertutup (saluran kota) untuk diolah lebih lanjut"
+				],
+				"point" => [0, 1, 2, 3, 4],
+				"group" => "sanitation_facilities"
+			],
+			[
+				"komponen" => "<span>Saran Pembuangan Sampah/Tempat Sampah</span>",
+				"kriteria" => [
+					"Tidak Ada",
+					"Ada, tetapi tidak kedap air dan tidak ada tutup",
+					"Ada, kedap air dan tidak bertutup",
+					"Ada, kedap air dan bertutup",
+				],
+				"point" => [0, 1, 2, 3],
+				"group" => "sanitation_facilities"
+			],
+		];
+		$perilaku_penghuni = [
+			[
+				"komponen" => "Membuka Jendela Kamar Tidur",
+				"kriteria" => [
+					"Tidak pernah dibuka",
+					"Kadang-kadang",
+					"Setiap hari dibuka"
+				],
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
+			],
+			[
+				"komponen" => "Membuka Jendela Ruang Keluarga",
+				"kriteria" => [
+					"Tidak pernah dibuka",
+					"Kadang-kadang",
+					"Setiap hari dibuka"
+				],
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
+			],
+			[
+				"komponen" => "Membersihkan rumah dan halaman",
+				"kriteria" => [
+					"Tidak pernah dibuka",
+					"Kadang-kadang",
+					"Setiap hari"
+				],
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
+			],
+			[
+				"komponen" => "Membuang tinja bayi dan balita ke jamban",
+				"kriteria" => [
+					"Dibuang ke sungai/kebun/kolam sembarangan",
+					"Kadang-kadang ke jamban",
+					"Setiap hari dibuang ke jamban"
+				],
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
+			],
+			[
+				"komponen" => "Membuang sampah pada tempat sampah",
+				"kriteria" => [
+					"Dibuang ke sungai/kebun/kolam sembarangan",
+					"Kadang-kadang dibuang ke tempat sampah",
+					"Setiap hari dibuang ke tempat sampah"
+				],
+				"point" => [0, 1, 2],
+				"group" => "occupant_behavior"
+			],
+		];
+
+		$pdf = Pdf::loadView("dashboard.report-pdf", compact("inspection", "komponen_rumah", "sarana_sanitasi", "perilaku_penghuni"));
+		$pdf->setPaper("A4");
+		return $pdf->stream("hello.pdf");
 	}
 }

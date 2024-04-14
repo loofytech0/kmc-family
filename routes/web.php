@@ -21,4 +21,6 @@ Route::group(["prefix" => "dashboard", "middleware" => ["auth"]], function() {
 	Route::get("/inspection/{uuid}", [DashboardController::class, "inspectionNew"])->name("inspection.new");
 	Route::get("/inspection/{uuid}/edit", [DashboardController::class, "inspectionNew"])->name("inspection.edit");
 	Route::get("/report", [DashboardController::class, "report"])->name("report");
+	Route::get("/report/data", [DashboardController::class, "dataReport"])->name("report.data");
+	Route::get("/report/{uuid}", [DashboardController::class, "showReport"])->name("report.show");
 });

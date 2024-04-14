@@ -177,8 +177,20 @@
       <tr>
         <td colspan="2" class="font-bold">TOTAL</td>
         <td colspan="5" class="font-bold text-center">
-          <span id="analysis_illness_experiences-count">0</span>
-          (<span id="analysis_illness_experiences-information">Tidak di ketahui</span>)
+          <span id="analysis_illness_experiences-count">{{ $inspection ? $inspection->illness->sum("point") : "0" }}</span>
+          @if ($inspection)
+            @if ($inspection->illness->sum("point") <= 68)
+              (<span id="analysis_illness_experiences-information">Kurang</span>)
+            @endif
+            @if ($inspection->illness->sum("point") > 69 && $inspection->illness->sum("point") < 107)
+              (<span id="analysis_illness_experiences-information">Cukup</span>)
+            @endif
+            @if ($inspection->illness->sum("point") >= 108)
+              (<span id="analysis_illness_experiences-information">Baik</span>)
+            @endif
+          @else
+            (<span id="analysis_illness_experiences-information">Tidak di ketahui</span>)
+          @endif
         </td>
       </tr>
     </table>
@@ -288,8 +300,20 @@
       <tr>
         <td colspan="2" class="font-bold">SKOR TOTAL</td>
         <td colspan="5" class="font-bold text-center">
-          <span id="family_apgar_point">0</span>
-          (<span id="family_apgar_information">Tidak di ketahui</span>)
+          <span id="family_apgar_point">{{ $inspection ? $inspection->family_apgrs->sum("point") : "0" }}</span>
+          @if ($inspection)
+            @if ($inspection->family_apgrs->sum("point") >= 0 && $inspection->family_apgrs->sum("point") <= 3)
+              (<span id="family_apgar_information">Disfungsional Berat</span>)
+            @endif
+            @if ($inspection->family_apgrs->sum("point") >= 4 && $inspection->family_apgrs->sum("point") <= 7)
+              (<span id="family_apgar_information">Disfungsional Sedang</span>)
+            @endif
+            @if ($inspection->family_apgrs->sum("point") >= 8 && $inspection->family_apgrs->sum("point") <= 10)
+              (<span id="family_apgar_information">Disfungsional Sedang</span>)
+            @endif
+          @else
+            (<span id="family_apgar_information">Tidak di ketahui</span>)
+          @endif
         </td>
       </tr>
     </table>
@@ -418,8 +442,20 @@
       <tr>
         <td colspan="2" class="font-bold">TOTAL</td>
         <td colspan="5" class="font-bold text-center">
-          <span id="family_screems-count">0</span>
-          (<span id="family_screems-information">Tidak di ketahui</span>)
+          <span id="family_screems-count">{{ $inspection ? $inspection->family_screems->sum("point") : "0" }}</span>
+          @if ($inspection)
+            @if ($inspection->family_screems->sum("point") <= 10)
+              (<span id="family_screems-information">Kurang</span>)
+            @endif
+            @if ($inspection->family_screems->sum("point") >= 11 && $inspection->family_screems->sum("point") <= 19)
+              (<span id="family_screems-information">Cukup</span>)
+            @endif
+            @if ($inspection->family_screems->sum("point") >= 20)
+              (<span id="family_screems-information">Baik</span>)
+            @endif
+          @else
+            (<span id="family_screems-information">Tidak di ketahui</span>)
+          @endif
         </td>
       </tr>
     </table>
