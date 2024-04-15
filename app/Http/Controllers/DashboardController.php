@@ -60,7 +60,7 @@ class DashboardController extends Controller
 
 	public function dataPatient(Request $request) {
 		// dd($request->all());
-		$patient = Patient::with("inspection")->whereDay("created_at", "=", date("d"))->orderBy("created_at", "desc")->take($request->length)->get();
+		$patient = Patient::with("inspection")->orderBy("created_at", "desc")->take($request->length)->get();
 
 		return DataTables::of($patient)->toJson();
 	}
@@ -874,7 +874,7 @@ class DashboardController extends Controller
 	}
 
 	public function dataReport(Request $request) {
-		$inspection = Inspection::with("patient")->whereDay("created_at", "=", date("d"))->orderBy("created_at", "desc")->take($request->length)->get();
+		$inspection = Inspection::with("patient")->orderBy("created_at", "desc")->take($request->length)->get();
 
 		return DataTables::of($inspection)->toJson();
 	}
