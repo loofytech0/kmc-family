@@ -1089,6 +1089,6 @@ class DashboardController extends Controller
 
 		$pdf = Pdf::loadView("dashboard.report-pdf", compact("inspection", "komponen_rumah", "sarana_sanitasi", "perilaku_penghuni"));
 		$pdf->setPaper("A4");
-		return $pdf->stream("hello.pdf");
+		return $pdf->stream($inspection->patient->name ." | ". date("d/m/Y h:i", strtotime($inspection->created_at)) .".pdf");
 	}
 }
