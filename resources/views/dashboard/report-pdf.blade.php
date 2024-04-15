@@ -1,15 +1,18 @@
-<style>
-  table,
-  tr,
-  th,
-  td {
-    width: 100%;
-    border: 1px solid #000;
-    border-collapse: collapse;
-    font-size: 12px;
-    padding: 5px
-  }
-</style>
+<head>
+  <title>{{ $inspection->patient->name }} | {{ date("d/m/Y h:i", strtotime($inspection->created_at)) }}</title>
+  <style>
+    table,
+    tr,
+    th,
+    td {
+      width: 100%;
+      border: 1px solid #000;
+      border-collapse: collapse;
+      font-size: 12px;
+      padding: 5px
+    }
+  </style>
+</head>
 <div>
   <div class="mb-6">
     <div class="mb-4 font-bold">ANAMNESIS PENYAKIT</div>
